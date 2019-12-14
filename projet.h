@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 typedef enum booleen{FAUX=0,VRAI=1} Booleen;
-typedef enum civilite{Mr,Mme} Civilite;
-typedef enum type{chambre,studio,T1,T2} Type;
+typedef enum civilite{MR,MME} Civilite;
+typedef enum type{CHAMBRE,STUDIO,T1,T2} Type;
 
 typedef struct etudiant{
 	char idEtud[6];
