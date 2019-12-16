@@ -9,17 +9,17 @@ typedef struct etudiant{
 	char *nom;
 	char *prenom;
 	Civilite civ;
+	Booleen handicap;
 	Booleen boursier;
 	int echelon;
-	Booleen handicap;
 }Etudiant;
 
 typedef struct logement{
 	char idLoge[6];
 	char *cite;
 	Type type;
+	Booleen handicapAdapte;
 	Booleen dispo;
-	Booleen handicapAdapt;
 	char idEtudOccup[6];
 }Logement;
 

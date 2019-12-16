@@ -1,27 +1,27 @@
-L0001	Les JARDINS				CHAMBRE		DISPO		NON-HANDI
-L0002	Les Jolies Fleurs		CHAMBRE		DISPO		NON-HANDI
-L0003	Les Jolies Fleurs		CHAMBRE		DISPO		NON-HANDI
-L0004	Les Jolies Fleurs		CHAMBRE		DISPO		NON-HANDI
-L0005	Les Jolies Fleurs		CHAMBRE		DISPO		NON-HANDI
-L0006	Les Jolies Fleurs		CHAMBRE		DISPO		NON-HANDI
-L0007	Les Jolies Fleurs		CHAMBRE		DISPO		NON-HANDI
-L0008	Les Jolies Fleurs		CHAMBRE		DISPO		NON-HANDI
-L0009	Le Clos Saint-Jacques	STUDIO		NON-DISPO	HANDI			E0001
-L0010	Le Clos Saint-Jacques	STUDIO		NON-DISPO	HANDI			E0001 
-L0011	Le Clos Saint-Jacques	STUDIO		NON-DISPO	HANDI			E0001 
-L0012	Le Clos Saint-Jacques	STUDIO		NON-DISPO	HANDI			E0001 
-L0013	Le Clos Saint-Jacques	STUDIO		NON-DISPO	HANDI			E0001 
-L0014	Poncillon				T2			DISPO		NON-HANDI
-L0015	Poncillon				T2			DISPO		NON-HANDI
-L0016	Poncillon				T2			DISPO		NON-HANDI
-L0017	Poncillon				T2			DISPO		NON-HANDI
-L0018	Poncillon				T2			DISPO		NON-HANDI
-L0019	Poncillon				T2			DISPO		NON-HANDI
-L0020	Poncillon				T2			DISPO		NON-HANDI
-L0021	Poncillon				T2			DISPO		NON-HANDI
-L0022	Cité-Z					T1			NON-DISPO	HANDI			E0002
-L0023	Cité-Z					T1			NON-DISPO	HANDI			E0002
-L0024	Cité-Z					T1			NON-DISPO	HANDI			E0002
-L0025	Cité-Z					T1			NON-DISPO	HANDI			E0002
-L0026	Cité-Z					T1			NON-DISPO	HANDI			E0002
-L0027	Cité-Z					T1			NON-DISPO	HANDI			E0002
+L0001	Les JARDINS				CHAMBRE		0	1
+L0002	Les Jolies Fleurs		CHAMBRE		0	1
+L0003	Les Jolies Fleurs		CHAMBRE		0	1
+L0004	Les Jolies Fleurs		CHAMBRE		0	1
+L0005	Les Jolies Fleurs		CHAMBRE		0	1
+L0006	Les Jolies Fleurs		CHAMBRE		0	1
+L0007	Les Jolies Fleurs		CHAMBRE		0	1
+L0008	Les Jolies Fleurs		CHAMBRE		0	1
+L0009	Le Clos Saint-Jacques	STUDIO		1	0		E0001
+L0010	Le Clos Saint-Jacques	STUDIO		1	0		E0001 
+L0011	Le Clos Saint-Jacques	STUDIO		1	0		E0001 
+L0012	Le Clos Saint-Jacques	STUDIO		1	0		E0001 
+L0013	Le Clos Saint-Jacques	STUDIO		1	0		E0001 
+L0014	Poncillon				T2			0	1
+L0015	Poncillon				T2			0	1
+L0016	Poncillon				T2			0	1
+L0017	Poncillon				T2			0	1
+L0018	Poncillon				T2			0	1
+L0019	Poncillon				T2			0	1
+L0020	Poncillon				T2			0	1
+L0021	Poncillon				T2			0	1
+L0022	Cité-Z					T1			1	0		E0002
+L0023	Cité-Z					T1			1	0		E0002
+L0024	Cité-Z					T1			1	0		E0002
+L0025	Cité-Z					T1			1	0		E0002
+L0026	Cité-Z					T1			1	0		E0002
+L0027	Cité-Z					T1			1	0		E0002
