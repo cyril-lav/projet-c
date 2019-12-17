@@ -1,14 +1,13 @@
 #include <stdio.h>
 
 typedef enum booleen{FAUX=0,VRAI=1} Booleen;
-typedef enum civilite{MR,MME} Civilite;
-typedef enum type{CHAMBRE,STUDIO,T1,T2} Type;
+
 
 typedef struct etudiant{
 	char idEtud[6];
 	char *nom;
 	char *prenom;
-	Civilite civ;
+	char civ[4];
 	Booleen handicap;
 	Booleen boursier;
 	int echelon;
@@ -17,7 +16,7 @@ typedef struct etudiant{
 typedef struct logement{
 	char idLoge[6];
 	char *cite;
-	Type type;
+	char type[8];
 	Booleen handicapAdapte;
 	Booleen dispo;
 	char idEtudOccup[6];
@@ -28,5 +27,5 @@ typedef struct demande{
 	char idEtudDemande[6];
 	int echelonEtud;
 	char *citeDemande;
-	Type typeDemande;
+	char typeDemande[8];
 }Demande;
