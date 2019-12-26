@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 typedef enum booleen{FAUX=0,VRAI=1} Booleen;
 
@@ -37,3 +39,13 @@ typedef struct maill{
 }MaillonDemande;
 
 typedef MaillonDemande *ListeDemande;
+
+
+
+
+// Affichage
+void menu(void);
+void affichLogeOccup(Logement tabLoge[], int nbLoge);
+void affichLogeDispo(Logement tabLoge[], int nbLoge);
+void appli(void);
+
