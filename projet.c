@@ -88,6 +88,65 @@ Logement lireLogement(FILE *fe){
   return l;
 }
 
+Etudiant* chargeEtudiant(FILE* fe, int* nbEtud){
+	Etudiant* tab;
+	int i;
+
+	fscanf(fe, "%d ", nbEtud);
+	tab=(Etudiant*)malloc(sizeof(Etudiant)* *nbEtud);
+	if(tab == NULL){
+		printf("problème allocation mémoire etudiant");
+		exit(1);
+	}
+	for(i=0; i < *nbEtud; i++){
+		tab[i]= lireEtud(fe);
+	}
+	return tab;
+}
+
+int chargeLogement(Logement* tab[], int tmax, FILE* fe){
+	Logement l;
+	int nbLo=0, i;
+
+	l=lireLogement(fe);
+	while(feof(fe) == 0){
+		if(nbLo == tmax){
+			printf("tableau trop petit");
+			for(i=0; i < nbLo; i++){
+				free(tab[i]);
+			}
+			return -1;
+		}
+		tab[nbLo]=(Logement*)malloc(sizeof(Logement));
+		if(tab[nbLo] == NULL){
+			printf("problème allocation mémoire logement");
+			for(i=0; i < nbLo; i++){
+				free(tab[i]);
+			}
+			return -1;
+		}
+		*tab[nbLo]=l;
+		l=lireLogement(fe);
+		nbLo++;
+	}
+	return nbLo;
+}
+
+MaillonDemande* chargeDemande(FILE* fe, int* nbEtud){
+	MaillonDemande* tab;
+
+	fread(nbEtud, sizeof(int), 1, fe);
+
+	tab=(MaillonDemande*)malloc(sizeof(MaillonDemande)* *nbEtud);
+	if(tab==NULL){  
+    	printf("Problème d'allocation de la mémoire\n");  
+    	exit(1);                                           
+  	}
+	fread(tab, sizeof(MaillonDemande), *nbEtud, fe);
+
+	return tab;
+}
+
 // Affichage menu
 void menu(void){
 printf("\n###############################################\n");

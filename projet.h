@@ -43,6 +43,11 @@ typedef MaillonDemande *ListeDemande;
 
 //Chargement
 Etudiant lireEtud(FILE *fe);
+Logement lireLogement(FILE *fe);
+
+Etudiant* chargeEtudiant(FILE *fe, int* nbEtud);
+int chargeLogement(Logement* tab[], int tmax, FILE* fe);
+MaillonDemande* chargeDemande(FILE* fe, int* nbEtud);
 
 // Affichage
 void menu(void);
