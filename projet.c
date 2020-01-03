@@ -1,7 +1,92 @@
 #include "projet.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 // J'adore Cyril
 
+/* 
+   Fonction: lireEtud
+   finalité: Lit un etudiant dans le fichier
+   paramètre entrant/sortant :
+		 fe			- flot entrant
+   valeur retournée : l'article lu
+
+*/
+Etudiant lireEtud(FILE *fe){
+  Etudiant e;
+  int taille;
+  char chaine[50];
+
+  fgets(e.idEtud, 7, fe);
+  taille=strlen(e.idEtud);
+  if (e.idEtud[taille-1] == '\n'){
+    e.idEtud[taille-1] = '\0';
+  }
+
+
+  fgets(chaine, 50, fe);
+  taille=strlen(chaine);
+  if (chaine[taille-1] == '\n'){
+    chaine[taille-1] = '\0';
+	taille--;
+  }
+  e.nom=(char*)malloc(sizeof(char)*(taille+1));
+  if (e.nom == NULL)exit(1);
+  strcpy(e.nom, chaine);
+
+
+  fgets(chaine, 50, fe);
+  taille=strlen(chaine);
+  if (chaine[taille-1] == '\n'){
+    chaine[taille-1] = '\0';
+	taille--;
+  }
+  e.prenom=(char*)malloc(sizeof(char)*(taille+1));
+  if (e.prenom == NULL)exit(1);
+  strcpy(e.prenom, chaine);
+
+
+  fscanf(fe,"%s %d %d %d",e.civ, &e.handicap, &e.boursier, &e.echelon);
+
+  return e;
+}
+
+/* 
+   Fonction: lireLogement
+   finalité: Lit un logement dans le fichier
+   paramètre entrant/sortant :
+		 fe			- flot entrant
+   valeur retournée : l'article lu
+
+*/
+Logement lireLogement(FILE *fe){
+  Logement l;
+  int taille;
+  char chaine[50];
+
+  fgets(l.idLoge, 7, fe);
+  taille=strlen(l.idLoge);
+  if (l.idLoge[taille-1] == '\n'){
+    l.idLoge[taille-1] = '\0';
+  }
+
+
+  fgets(chaine, 50, fe);
+  taille=strlen(chaine);
+  if (chaine[taille-1] == '\n'){
+    chaine[taille-1] = '\0';
+	taille--;
+  }
+  l.cite=(char*)malloc(sizeof(char)*(taille+1));
+  if (l.cite == NULL)exit(1);
+  strcpy(l.cite, chaine);
+
+
+  fscanf(fe,"%s %d %d %s",l.type, &l.handicapAdapte, &l.dispo, l.idEtudOccup);
+
+  return l;
+}
 
 // Affichage menu
 void menu(void){

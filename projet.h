@@ -41,7 +41,8 @@ typedef struct maill{
 typedef MaillonDemande *ListeDemande;
 
 
-
+//Chargement
+Etudiant lireEtud(FILE *fe);
 
 // Affichage
 void menu(void);
