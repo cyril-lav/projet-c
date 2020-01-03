@@ -88,6 +88,18 @@ Logement lireLogement(FILE *fe){
   return l;
 }
 
+/* 
+   Fonction: chargeEtudiant
+   finalité: Charge les etudiants dans un tableau
+   
+   paramètre entrant/sortant :
+         fe		    - flot d'entrée
+	     nbEtud		- nombre d'étudiants
+		 
+   valeur retournée : 
+         le tableau d'étudiants
+
+*/
 Etudiant* chargeEtudiant(FILE* fe, int* nbEtud){
 	Etudiant* tab;
 	int i;
@@ -104,6 +116,21 @@ Etudiant* chargeEtudiant(FILE* fe, int* nbEtud){
 	return tab;
 }
 
+/* 
+   Fonction: chargeEtudiant
+   finalité: Charge les logements dans un tableau de pointeurs
+   
+   paramètre entrant/sortant :
+         fe		    - flot d'entrée
+		 tab		- tableau de logements
+
+   paramètre entrant : 
+	     tmax		- taille max du tableau
+		 
+   valeur retournée : 
+         nombre de logement
+
+*/
 int chargeLogement(Logement* tab[], int tmax, FILE* fe){
 	Logement l;
 	int nbLo=0, i;
@@ -132,17 +159,29 @@ int chargeLogement(Logement* tab[], int tmax, FILE* fe){
 	return nbLo;
 }
 
-MaillonDemande* chargeDemande(FILE* fe, int* nbEtud){
+/* 
+   Fonction: chargeDemande
+   finalité: Charge les logements dans un tableau
+   
+   paramètre entrant/sortant :
+         fe		    - flot d'entrée
+		 nbLog		- nombre de logement
+		 
+   valeur retournée : 
+         le tableau de logement
+
+*/
+MaillonDemande* chargeDemande(FILE* fe, int* nbLog){
 	MaillonDemande* tab;
 
-	fread(nbEtud, sizeof(int), 1, fe);
+	fread(nbLog, sizeof(int), 1, fe);
 
-	tab=(MaillonDemande*)malloc(sizeof(MaillonDemande)* *nbEtud);
+	tab=(MaillonDemande*)malloc(sizeof(MaillonDemande)* *nbLog);
 	if(tab==NULL){  
     	printf("Problème d'allocation de la mémoire\n");  
     	exit(1);                                           
   	}
-	fread(tab, sizeof(MaillonDemande), *nbEtud, fe);
+	fread(tab, sizeof(MaillonDemande), *nbLog, fe);
 
 	return tab;
 }

@@ -47,7 +47,7 @@ Logement lireLogement(FILE *fe);
 
 Etudiant* chargeEtudiant(FILE *fe, int* nbEtud);
 int chargeLogement(Logement* tab[], int tmax, FILE* fe);
-MaillonDemande* chargeDemande(FILE* fe, int* nbEtud);
+MaillonDemande* chargeDemande(FILE* fe, int* nbLog);
 
 // Affichage
 void menu(void);
