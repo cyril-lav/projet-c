@@ -29,14 +29,18 @@ typedef struct logement{
 
 
 //liste chaînée (nombre de demandes indiqué dans le fichier .bin)
-typedef struct maill{
+typedef struct demande{
 	char idDemande[6];
 	char idEtudDemande[6];
 	int echelonEtud;
 	char *citeDemande;
 	char typeDemande[8];
-	struct maill *suiv;
-}MaillonDemande;
+}Demande;
+
+typedef struct MailleDema {
+    Demande demande;
+    struct MailleDema* suivant;
+} MaillonDemande;
 
 typedef MaillonDemande *ListeDemande;
 
@@ -47,7 +51,7 @@ Logement lireLogement(FILE *fe);
 
 Etudiant* chargeEtudiant(FILE *fe, int* nbEtud);
 int chargeLogement(Logement* tab[], int tmax, FILE* fe);
-MaillonDemande* chargeDemande(FILE* fe, int* nbLog);
+ListeDemande chargeDemande(FILE* fe, int* nbLog);
 
 // Affichage
 void menu(void);
