@@ -48,7 +48,7 @@ typedef MaillonDemande *ListeDemande;
 //Chargement
 Etudiant lireEtud(FILE *fe);
 Logement lireLogement(FILE *fe);
-
+ListeDemande ajouterDemandeListe(ListeDemande listeDemande, Demande demande);
 Etudiant* chargeEtudiant(FILE *fe, int* nbEtud);
 int chargeLogement(Logement* tab[], int tmax, FILE* fe);
 ListeDemande chargeDemande(FILE* fe, int* nbLog);
