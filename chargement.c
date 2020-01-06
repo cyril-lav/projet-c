@@ -219,6 +219,6 @@ ListeDemande chargeDemande(FILE* fe, int* nbLog){
     for(i=0; i < *nbLog; i++){
         demandes=ajouterDemandeListe(demandes, tab[i]);
     }
-
+	free(tab);
 	return demandes;
 }
