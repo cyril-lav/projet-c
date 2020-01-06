@@ -47,15 +47,15 @@ typedef MaillonDemande *ListeDemande;
 
 //Chargement
 Etudiant lireEtud(FILE *fe);
-Logement lireLogement(FILE *fe);
+Logement lireLogement(FILE *feLoge);
 
 Etudiant* chargeEtudiant(FILE *fe, int* nbEtud);
-int chargeLogement(Logement* tab[], int tmax, FILE* fe);
+int chargeLogement(Logement* tab[], int tmax, FILE* feLoge);
 ListeDemande chargeDemande(FILE* fe, int* nbLog);
 
 // Affichage
 void menu(void);
-void affichLogeOccup(Logement tabLoge[], int nbLoge);
-void affichLogeDispo(Logement tabLoge[], int nbLoge);
+void affichLogeOccup(Logement *tabLoge[], int nbLoge);
+void affichLogeDispo(Logement *tabLoge[], int nbLoge);
 void appli(void);
 

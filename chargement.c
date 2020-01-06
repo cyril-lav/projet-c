@@ -58,32 +58,28 @@ Etudiant lireEtud(FILE *fe){
    valeur retournée : l'article lu
 
 */
-Logement lireLogement(FILE *fe){
-  Logement l;
-  int taille;
-  char chaine[50];
+Logement lireLogement(FILE *feLoge){
+    Logement l;
+    int taille;
+    char chaine[50];
 
-  fgets(l.idLoge, 7, fe);
-  taille=strlen(l.idLoge);
-  if (l.idLoge[taille-1] == '\n'){
-    l.idLoge[taille-1] = '\0';
-  }
+    fscanf(feLoge,"%s",l.idLoge);
 
-
-  fgets(chaine, 50, fe);
-  taille=strlen(chaine);
-  if (chaine[taille-1] == '\n'){
-    chaine[taille-1] = '\0';
-	taille--;
-  }
-  l.cite=(char*)malloc(sizeof(char)*(taille+1));
-  if (l.cite == NULL)exit(1);
-  strcpy(l.cite, chaine);
+    fgets(chaine, 50, feLoge);
+    taille=strlen(chaine);
+    if (chaine[taille-1] == '\n'){
+        chaine[taille-1] = '\0';
+        taille--;
+    }
+    l.cite=(char*)malloc(sizeof(char)*(taille+1));
+    if (l.cite == NULL)exit(1);
+    strcpy(l.cite, chaine);
 
 
-  fscanf(fe,"%s %d %d %s",l.type, &l.handicapAdapte, &l.dispo, l.idEtudOccup);
-
-  return l;
+    fscanf(feLoge," %s %d %d",l.type, &l.handicapAdapte, &l.dispo);
+    if(l.dispo==0)
+        fscanf(feLoge," %s",l.idEtudOccup);
+    return l;
 }
 
 
@@ -162,12 +158,12 @@ Etudiant* chargeEtudiant(FILE* fe, int* nbEtud){
          nombre de logement
 
 */
-int chargeLogement(Logement* tab[], int tmax, FILE* fe){
+int chargeLogement(Logement* tab[], int tmax, FILE* feLoge){
 	Logement l;
 	int nbLo=0, i;
 
-	l=lireLogement(fe);
-	while(feof(fe) == 0){
+	l=lireLogement(feLoge);
+	while(feof(feLoge) == 0){
 		if(nbLo == tmax){
 			printf("tableau trop petit");
 			for(i=0; i < nbLo; i++){
@@ -184,7 +180,7 @@ int chargeLogement(Logement* tab[], int tmax, FILE* fe){
 			return -1;
 		}
 		*tab[nbLo]=l;
-		l=lireLogement(fe);
+		l=lireLogement(feLoge);
 		nbLo++;
 	}
 	return nbLo;
