@@ -42,7 +42,7 @@ void triBulle(Logement* tabLoge[],int nb){
 
 void affichLogeOccup(Logement* tabLoge[], int nbLoge){
   int i=0;
-  printf("o k  %s 000\n",*tabLoge[i]->idEtudOccup);
+  printf("o k  %s 000\n",tabLoge[i]->idEtudOccup);
   for(i=0;i<nbLoge;i++){
     if(tabLoge[i]->idEtudOccup!=NULL){
       printf(" %s \t %s \t %s \t %d \t %d \t %s \n",tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
