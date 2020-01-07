@@ -1,4 +1,4 @@
-#define TAILLE 30
+#define TAILLE 100
 #include "projet.h"
 
 void appli(void){
@@ -14,7 +14,7 @@ void appli(void){
     return;
   }
 
-
+  nbLoge=chargeLogement(tabLoge,TAILLE,feLoge);
 	
   menu();
   scanf("%c%*c",&choix);
@@ -64,14 +64,5 @@ void appli(void){
 }
 
 int main(void){
-  int nbLoge;
-  Logement tabLoge[TAILLE];
-  FILE *fe;
-  fe=fopen("logements.don","r");
-  if(fe==NULL){
-    printf("pb ouv fichier\n");
-    return -1;
-  }
-  nbLoge=chargeLogement(tabLoge,100,fe);
-  // appli();
+  appli();
 }

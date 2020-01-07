@@ -57,4 +57,5 @@ void menu(void);
 void affichLogeOccup(Logement *tabLoge[], int nbLoge);
 void affichLogeDispo(Logement *tabLoge[], int nbLoge);
 void appli(void);
+void triBulle(Logement *tabLoge[], int nb);
 

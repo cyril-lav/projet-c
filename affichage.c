@@ -23,7 +23,7 @@ void menu(void){
 }
 
 
-void triBulle(Logement* *tabLoge,int nb){
+void triBulle(Logement* tabLoge[],int nb){
   int i, cpt=0;
   Logement* logementReserve;
   if(nb==0 || nb==1) return;
@@ -40,30 +40,20 @@ void triBulle(Logement* *tabLoge,int nb){
   }
 }
 
-void affichLogeOccup(Logement* *tabLoge, int nbLoge){
-  int i;
-  triBulle(tabLoge,nbLoge);
+void affichLogeOccup(Logement* tabLoge[], int nbLoge){
+  int i=0;
+  printf("o k  %s 000\n",*tabLoge[i]->idEtudOccup);
   for(i=0;i<nbLoge;i++){
     if(tabLoge[i]->idEtudOccup!=NULL){
-      printf("%s\t%s\t%s\t%d\t%d\t%s\n",tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
+      printf(" %s \t %s \t %s \t %d \t %d \t %s \n",tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
     }
   }
 }
 
-// Menu -> 2)
-/*void affichLogeOccup(Logement *tabLoge[], int nbLoge){
-  int i;
-  for(i=0;i<nbLoge;i++){
-  if(tabLoge[i]->idEtudOccup!=NULL){ // mettre * si tableau de pointeurs
-  printf("%s\t%s\t%s\t%d\t%d\t%s\n",tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
-  }
-  }
-  }
-*/
-
 // Menu -> 1)
-void affichLogeDispo(Logement* *tabLoge, int nbLoge){
+void affichLogeDispo(Logement* tabLoge[], int nbLoge){
   int i;
+  triBulle(tabLoge,nbLoge);
   for(i=0;i<nbLoge;i++){
     if(tabLoge[i]->idEtudOccup==NULL){ // mettre * si tableau de pointeurs
       printf("%s\t%s\t%s\t%d\t%d\n",tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);
