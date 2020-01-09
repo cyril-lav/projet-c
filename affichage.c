@@ -40,23 +40,23 @@ void triBulle(Logement* tabLoge[],int nb){
   }
 }
 
-void affichLogeOccup(Logement* tabLoge[], int nbLoge){
-  int i=0;
-  printf("o k  %s 000\n",tabLoge[i]->idEtudOccup);
-  for(i=0;i<nbLoge;i++){
-    if(tabLoge[i]->idEtudOccup!=NULL){
-      printf(" %s \t %s \t %s \t %d \t %d \t %s \n",tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
-    }
-  }
+void affichLogeOccup(Logement loge){
+  printf(" %s %s\t%s\t%d %d \t/*%s*/ \n",loge.idLoge,loge.cite,loge.type,loge.handicapAdapte,loge.dispo/*,loge.idEtudOccup*/);
 }
+  
 
 // Menu -> 1)
-void affichLogeDispo(Logement* tabLoge[], int nbLoge){
-  int i;
-  triBulle(tabLoge,nbLoge);
-  for(i=0;i<nbLoge;i++){
-    if(tabLoge[i]->idEtudOccup==NULL){ // mettre * si tableau de pointeurs
-      printf("%s\t%s\t%s\t%d\t%d\n",tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);
-    }
-  }
+void affichLogeDispo(Logement loge){
+  printf(" %s ",loge.idLoge);
+  printf("\t\t\t\t\t\t\t||idLoge||\n");
+  printf(" %s ",loge.cite);
+  printf("\t\t\t||cite||\n");
+  printf(" %s ",loge.type);
+  printf("\t\t\t\t\t\t\t||type||\n");
+  printf(" %d ",loge.handicapAdapte);
+  printf("\t\t\t\t\t\t\t||handicapAdapte||\n");
+  printf(" %d ",loge.dispo);
+  printf("\t\t\t\t\t\t\t||dispo||\n\n");
 }
+
+// printf(" %s\n||%s\n\t%s\n || \t%d || %d\n",loge.idLoge,loge.cite,loge.type,loge.handicapAdapte,loge.dispo);
