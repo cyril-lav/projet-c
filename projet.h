@@ -27,15 +27,9 @@ typedef struct etudiant{
 typedef struct logement{
 	char idLoge[6];
 	char *cite;
-<<<<<<< HEAD
 	Type type;
 	Booleen handicapAdapte;
 	Booleen dispo;
-=======
-	char type[8];
-        int handicapAdapte;
-        int dispo;
->>>>>>> 136d30802f01b4d0cc3b0e9fba4c1b00d166969e
 	char idEtudOccup[6];
 }Logement;
 
@@ -61,14 +55,13 @@ typedef MaillonDemande *ListeDemande;
 Etudiant lireEtud(FILE *fe);
 Logement lireLogement(FILE *feLoge);
 Etudiant* chargeEtudiant(FILE *fe, int* nbEtud);
-/*int chargeLogement(Logement* tab[], int tmax, FILE* feLoge);*/
-Logement* chargeLogement(FILE* feLoge, int* nbLoge);
+int chargeLogement(Logement* tab[], int tmax, FILE* feLoge);
 ListeDemande chargeDemande(FILE* fe, int* nbLog);
 
 // Affichage
 void menu(void);
-void affichLogeOccup(Logement loge);
-void affichLogeDispo(Logement loge);
+void affichLogeOccup(Logement *tabLoge[], int nbLoge);
+void affichLogeDispo(Logement *tabLoge[], int nbLoge);
 void appli(void);
 void triBulle(Logement *tabLoge[], int nb);
 
