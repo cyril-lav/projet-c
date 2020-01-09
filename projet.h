@@ -4,6 +4,12 @@
 
 typedef enum booleen{FAUX=0,VRAI=1} Booleen;
 
+typedef enum typelog{
+    CHAMBRE, 
+    STUDIO,
+    T1,
+    T2
+} Type;
 
 //pointeur sur tableau (nombre d'étudiants indiqué dans le fichier.don)
 typedef struct etudiant{
@@ -21,7 +27,7 @@ typedef struct etudiant{
 typedef struct logement{
 	char idLoge[6];
 	char *cite;
-	char type[8];
+	Type type;
 	Booleen handicapAdapte;
 	Booleen dispo;
 	char idEtudOccup[6];
@@ -34,7 +40,7 @@ typedef struct demande{
 	char idEtudDemande[6];
 	int echelonEtud;
 	char *citeDemande;
-	char typeDemande[8];
+	Type type;
 }Demande;
 
 typedef struct MailleDema {

@@ -13,39 +13,45 @@
 */
 Etudiant lireEtud(FILE *fe){
   Etudiant e;
-  int taille;
-  char chaine[50];
+  int tailleNom, taillePrenom;
+  char nom[50], prenom[50];
 
-  fgets(e.idEtud, 7, fe);
-  taille=strlen(e.idEtud);
-  if (e.idEtud[taille-1] == '\n'){
-    e.idEtud[taille-1] = '\0';
+  //id etudiant
+  fscanf(fe,"%s",e.idEtud);
+
+  //nom
+  fgets(nom, 50, fe);
+  tailleNom=strlen(nom);
+  if (nom[tailleNom-1] == '\n'){
+    nom[tailleNom-1] = '\0';
+	tailleNom--;
   }
-
-
-  fgets(chaine, 50, fe);
-  taille=strlen(chaine);
-  if (chaine[taille-1] == '\n'){
-    chaine[taille-1] = '\0';
-	taille--;
-  }
-  e.nom=(char*)malloc(sizeof(char)*(taille+1));
+  e.nom=(char*)malloc(sizeof(char)*(tailleNom+1));
   if (e.nom == NULL)exit(1);
-  strcpy(e.nom, chaine);
+  strcpy(e.nom, nom);
 
-
-  fgets(chaine, 50, fe);
-  taille=strlen(chaine);
-  if (chaine[taille-1] == '\n'){
-    chaine[taille-1] = '\0';
-	taille--;
+  //prenom
+  fgets(prenom, 50, fe);
+  taillePrenom=strlen(prenom);
+  if (prenom[taillePrenom-1] == '\n'){
+    prenom[taillePrenom-1] = '\0';
+	taillePrenom--;
   }
-  e.prenom=(char*)malloc(sizeof(char)*(taille+1));
+  e.prenom=(char*)malloc(sizeof(char)*(taillePrenom+1));
   if (e.prenom == NULL)exit(1);
-  strcpy(e.prenom, chaine);
+  strcpy(e.prenom, prenom);
 
+  //civilité
+  fscanf(fe,"%s",e.civ);
 
-  fscanf(fe,"%s %d %d %d",e.civ, &e.handicap, &e.boursier, &e.echelon);
+  //handicap
+  fscanf(fe,"%d%*c", &e.handicap);
+
+  //boursier et si oui echelon
+  fscanf(fe,"%d%*c",&e.boursier);
+  if (e.boursier){
+    fscanf(fe,"%d%*c",&e.echelon);
+  }
 
   return e;
 }
@@ -58,27 +64,39 @@ Etudiant lireEtud(FILE *fe){
    valeur retournée : l'article lu
 
 */
-Logement lireLogement(FILE *feLoge){
+Logement lireLogement(FILE *fe){
     Logement l;
-    int taille;
-    char chaine[50];
+    int tailleCite;
+    char nomCite[50];
 
-    fscanf(feLoge,"%s",l.idLoge);
+    //id logement
+    fscanf(fe,"%s",l.idLoge);
 
-    fgets(chaine, 50, feLoge);
-    taille=strlen(chaine);
-    if (chaine[taille-1] == '\n'){
-        chaine[taille-1] = '\0';
-        taille--;
+    //nom de la cite
+    fgets(nomCite, 50, fe);
+    tailleCite=strlen(nomCite);
+    if (nomCite[tailleCite-1] == '\n'){
+        nomCite[tailleCite-1] = '\0';
+        tailleCite--;
     }
-    l.cite=(char*)malloc(sizeof(char)*(taille+1));
+    l.cite=(char*)malloc(sizeof(char)*(tailleCite+1));
     if (l.cite == NULL)exit(1);
-    strcpy(l.cite, chaine);
+    strcpy(l.cite, nomCite);
 
+    //Type de logement
+    fscanf(fe," %s",l.type);
 
-    fscanf(feLoge," %s %d %d",l.type, &l.handicapAdapte, &l.dispo);
-    if(l.dispo==0)
-        fscanf(feLoge," %s",l.idEtudOccup);
+    //logement pour handicap
+    fscanf(fe,"%d%*c", &l.handicapAdapte);
+
+    //logement diponible
+    fscanf(fe,"%d%*c", &l.dispo);
+
+    //Id de l'etusiant qui occupe
+    if(l.dispo==0){
+        fscanf(fe," %s",l.idEtudOccup);
+    }
+    
     return l;
 }
 
