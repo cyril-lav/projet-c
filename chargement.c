@@ -64,7 +64,12 @@ Etudiant lireEtud(FILE *fe){
    valeur retournée : l'article lu
 
 */
+<<<<<<< HEAD
 Logement lireLogement(FILE *fe){
+=======
+
+/*Logement lireLogement(FILE *feLoge){
+>>>>>>> 136d30802f01b4d0cc3b0e9fba4c1b00d166969e
     Logement l;
     int tailleCite;
     char nomCite[50];
@@ -98,6 +103,30 @@ Logement lireLogement(FILE *fe){
     }
     
     return l;
+}
+*/
+Logement lireLogement(FILE *feLoge){
+  char cite[50];
+  int taille;
+  Logement loge;
+  fscanf(feLoge,"%s",loge.idLoge);
+  fgets(cite,50,feLoge);
+  taille=strlen(cite);
+  if (cite[taille-1] == '\n'){
+     cite[taille-1] = '\0';
+     taille--;
+  }
+  loge.cite=(char*)malloc(sizeof(char)*(taille+1));
+  if(loge.cite==NULL) exit(1);
+  strcpy(loge.cite,cite);
+  fscanf(feLoge," %s %d %d ",loge.type,&loge.handicapAdapte/*,&loge.dispo*/);
+  if(loge.dispo==1){
+    fscanf(feLoge,"%s",loge.idEtudOccup);
+  }
+  else{
+    strcpy(loge.idEtudOccup,loge.idLoge);
+  }
+  return loge;
 }
 
 
@@ -176,6 +205,8 @@ Etudiant* chargeEtudiant(FILE* fe, int* nbEtud){
          nombre de logement
 
 */
+
+/*
 int chargeLogement(Logement* tab[], int tmax, FILE* feLoge){
 	Logement l;
 	int nbLo=0, i;
@@ -203,8 +234,21 @@ int chargeLogement(Logement* tab[], int tmax, FILE* feLoge){
 	}
 	return nbLo;
 }
-
-
+*/
+Logement* chargeLogement(FILE* feLoge, int* nbLoge){
+  Logement* loge;
+  int i;
+  fscanf(feLoge,"%d ",nbLoge);
+  loge=(Logement*)malloc(sizeof(Logement)* *nbLoge);
+  if(loge==NULL){
+    printf("pb alloc\n");
+    exit(1);
+  }
+  for(i=0;i<*nbLoge;i++){
+    loge[i]=lireLogement(feLoge);
+  }
+  return loge;
+}
 
 
 

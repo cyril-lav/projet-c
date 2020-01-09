@@ -1,168 +1,54 @@
-L0001	
-Les JARDINS	
-CHAMBRE		
-FAUX	
-VRAI
+27
+L0101	LesJARDINS	CHAMBRE	0	0
 
-L0002	
-Les JARDINS				
-CHAMBRE		
-0	
-0	
-E0001
+L0002	LesJARDINS	CHAMBRE	0	1	E0001
 
-L0003	
-Les JARDINS				
-STUDIO		
-0	
-1
+L0003	LesJARDINS	STUDIO	0	0
 
-L0004	
-Les JARDINS				
-T1		
-1	
-1
+L0004	LesJARDINS	T1	1	0
 
-L0005	
-Les JARDINS				
-T1		
-1	
-0	
-E0002
+L0005	LesJARDINS	T1	1	1	E0002
 
-L0006	
-Les JARDINS				
-CHAMBRE		
-0	
-1
+L0006	LesJARDINS	CHAMBRE	0	0
 
-L0007	
-Les JARDINS				
-STUDIO		
-0	
-1
+L0007	LesJARDINS	STUDIO	0	0
 
-L0008	
-Les JARDINS				
-CHAMBRE		
-0	
-0	
-E0003
+L0008	LesJARDINS	CHAMBRE	0	1	E0003
 
-L0009	
-Le Clos Saint-Jacques			
-T1	
-0	
-0	
-E0006
+L0009	LeClosSaint-Jacques	T1	0	1	E0006
 
-L0010	
-Le Clos Saint-Jacques			
-T1		
-0	
-1
+L0010	LeClosSaint-Jacques	T1	0	0
 
-L0011	
-Le Clos Saint-Jacques			
-T2		
-0	
-1
+L0011	LeClosSaint-Jacques	T2	0	0
 
-L0012	
-Le Clos Saint-Jacques			
-T2		
-0	
-1
+L0012	LeClosSaint-Jacques	T2	0	0
 
-L0013	
-Le Clos Saint-Jacques			
-T2		
-0	
-1
-L0014	
-Poncillon				
-CHAMBRE		
-0	
-1
+L0013	LeClosSaint-Jacques	T2	0	0
 
-L0015	
-Poncillon				
-STUDIO		
-0	
-1
+L0014	Poncillon	CHAMBRE	0	0
 
-L0016	
-Poncillon				
-STUDIO		
-0	
-1
+L0015	Poncillon	STUDIO	0	0
 
-L0017	
-Poncillon				
-CHAMBRE		
-0	
-1
+L0016	Poncillon	STUDIO	0	0
 
-L0018	
-Poncillon				
-CHAMBRE		
-0	
-1
+L0017	Poncillon	CHAMBRE	0	0
 
-L0019	
-Poncillon				
-T1		
-1	
-1
+L0018	Poncillon	CHAMBRE	0	0
 
-L0020	
-Poncillon				
-T1		
-1	
-1
+L0019	Poncillon	T1	1	0
 
-L0021	
-Poncillon				
-STUDIO		
-0	
-1
+L0020	Poncillon	T1	1	0
 
-L0022	
-Cité-Z					
-T1		
-0	
-1
+L0021	Poncillon	STUDIO	0	0
 
-L0023	
-Cité-Z					
-T1		
-0	
-0	
-E0014
+L0022	Cité-Z		T1	0	0
 
-L0024	
-Cité-Z					
-T1		
-0	
-0	
-E0028
+L0023	Cité-Z		T1	0	1	E0014
 
-L0025	
-Cité-Z					
-T1		
-0	
-0	
-E0010
+L0024	Cité-Z		T1	0	1	E0028
 
-L0026	
-Cité-Z					
-T1		
-0	
-0	
-E0009
+L0025	Cité-Z		T1	0	1	E0010
 
-L0027	
-Cité-Z					
-T1		
-0	
-1
+L0026	Cité-Z		T1	0	1	E0009
+
+L0027	Cité-Z		T1	0	0

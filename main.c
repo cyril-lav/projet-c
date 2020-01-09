@@ -6,42 +6,53 @@ void appli(void){
   char confirmQuit='X';
   char saveDone='0';
   FILE *feLoge;
-  Logement *tabLoge[TAILLE];
-  int nbLoge;
+  Logement* tabLoge;
+  int nbLoge,i;
   feLoge=fopen("logements.don","r");
+  
   if(feLoge==NULL){
     printf("Erreur ouverture fichier \"logements.don\"\n");
     return;
   }
-
-  nbLoge=chargeLogement(tabLoge,TAILLE,feLoge);
+  
+  tabLoge=chargeLogement(feLoge,&nbLoge);
+  fclose(feLoge);
 	
   menu();
   scanf("%c%*c",&choix);
 	while(!(choix=='9' && saveDone=='1')){
-	  switch(choix){
-	  case '1':
-	    affichLogeDispo(tabLoge, nbLoge);
-	  case '2':
-	    affichLogeOccup(tabLoge, nbLoge);
-	  case '3':
-	    break;
-	  case '4':
+	  if(choix=='1'){
+	    //triBulle(tabLoge,nbLoge);
+	    for(i=0;i<nbLoge;i++){
+	      // printf("%s",tabLoge[i].type);
+	      if(tabLoge[i].dispo==0){
+		affichLogeDispo(tabLoge[i]);
+	      }
+	    }
+	  }
+	  else if(choix=='2'){
+	    for(i=0;i<nbLoge;i++){
+	      affichLogeOccup(tabLoge[i]);
+	    }
+	  }
+	  else if(choix=='3'){
+	  }
+	  else if(choix=='4'){
 	    saveDone='0';
-	    break;
-	  case '5':
+	  }
+	  else if(choix=='5'){
 	    saveDone='0';
-	    break;
-	  case '6':
+	  }
+	  else if(choix=='6'){
 	    saveDone='0';
-	    break;
-	  case '7':
+	  }
+	  else if(choix=='7'){
 	    saveDone='0';
-	    break;
-	  case '8':
+	  }
+	  else if(choix=='8'){
 	    saveDone='1';
-	    break;
-	  case '9':
+	  }
+	  else if(choix=='9'){
 	    if(saveDone=='0'){
 	      printf("Vous n'avez pas sauvegardé, voulez-vous quand même quitter l'application ? (O/N)\n");
 	      scanf("%c%*c",&confirmQuit);
@@ -49,8 +60,8 @@ void appli(void){
 		saveDone='1';
 	      }
 	    }
-	    break;
-	  default:
+	  }
+	  else{
 	    printf("Erreur: valeur non valide\n");
 	  }
 	  if(choix=='9' && saveDone=='1'){
@@ -60,9 +71,9 @@ void appli(void){
 	  menu();
 	  scanf("%c%*c",&choix);
 	}
-	return;
 }
-
+	  
 int main(void){
   appli();
+  return 0;
 }
