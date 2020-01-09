@@ -102,10 +102,10 @@ Logement lireLogement(FILE *fe){
 
 
 
-ListeDemande ajouterDemandeListe(ListeDemande listeDemande, Demande demande) {
+ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande) {
   MaillonDemande* tmp;
 
-  int taille;
+  int tailleCite;
 
   tmp = (MaillonDemande*) malloc(sizeof(MaillonDemande));
   if(tmp == NULL) {
@@ -113,21 +113,28 @@ ListeDemande ajouterDemandeListe(ListeDemande listeDemande, Demande demande) {
       exit(1);
   }
 
+  //copie id logement
   strcpy(tmp->demande.idDemande, demande.idDemande);
 
-  taille = strlen(demande.citeDemande);
-  tmp->demande.citeDemande = (char*)malloc(sizeof(char)* taille + 1);
-
-  strcpy(tmp->demande.citeDemande, demande.citeDemande);
-  strcpy(tmp->demande.typeDemande, demande.typeDemande);
+  //copie id etud
   strcpy(tmp->demande.idEtudDemande, demande.idEtudDemande);
+
+  //copie echelon
   tmp->demande.echelonEtud = demande.echelonEtud;
 
+  //copie cite demande
+  taille = strlen(demande.citeDemande);
+  tmp->demande.citeDemande = (char*)malloc(sizeof(char)* taille + 1);
+  strcpy(tmp->demande.citeDemande, demande.citeDemande);
+
+  //copie type de logement demande
+  strcpy(tmp->demande.type, demande.type);
+  
   tmp->suivant = listeDemande;
+  listeDemande=tmp;
 
-    return tmp;
+  return listeDemande;
 }
-
 
 
 /* 
