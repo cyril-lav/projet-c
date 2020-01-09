@@ -40,23 +40,23 @@ void triBulle(Logement* tabLoge[],int nb){
   }
 }
 
-void affichLogeOccup(Logement loge){
-  printf(" %s %s\t%s\t%d %d \t/*%s*/ \n",loge.idLoge,loge.cite,loge.type,loge.handicapAdapte,loge.dispo/*,loge.idEtudOccup*/);
-}
+//void affichLogeOccup(Logement loge){
+// printf(" %s %s\t%s\t%d %d \t/*%s*/ \n",loge.idLoge,loge.cite,loge.type,loge.handicapAdapte,loge.dispo/*,loge.idEtudOccup*/);
+//}
+
   
 
 // Menu -> 1)
-void affichLogeDispo(Logement loge){
-  printf(" %s ",loge.idLoge);
-  printf("\t\t\t\t\t\t\t||idLoge||\n");
-  printf(" %s ",loge.cite);
-  printf("\t\t\t||cite||\n");
-  printf(" %s ",loge.type);
-  printf("\t\t\t\t\t\t\t||type||\n");
-  printf(" %d ",loge.handicapAdapte);
-  printf("\t\t\t\t\t\t\t||handicapAdapte||\n");
-  printf(" %d ",loge.dispo);
-  printf("\t\t\t\t\t\t\t||dispo||\n\n");
+void affichLogeDispo(Logement* tabLoge[],int nbLog){
+  int i;
+  printf("%d\n",nbLog);
+  for(i=0; i < nbLog; i++){
+    printf("%s %s %s %d %d ", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);
+    if(tabLoge[i]->dispo == 0){
+      printf("%s",tabLoge[i]->idEtudOccup);
+    }
+    printf("\n");
+  }
 }
 
 // printf(" %s\n||%s\n\t%s\n || \t%d || %d\n",loge.idLoge,loge.cite,loge.type,loge.handicapAdapte,loge.dispo);

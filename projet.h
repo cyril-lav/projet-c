@@ -4,13 +4,6 @@
 
 typedef enum booleen{FAUX=0,VRAI=1} Booleen;
 
-typedef enum typelog{
-    CHAMBRE, 
-    STUDIO,
-    T1,
-    T2
-} Type;
-
 //pointeur sur tableau (nombre d'étudiants indiqué dans le fichier.don)
 typedef struct etudiant{
 	char idEtud[6];
@@ -27,7 +20,7 @@ typedef struct etudiant{
 typedef struct logement{
 	char idLoge[6];
 	char *cite;
-	Type type;
+	char type[8];
 	Booleen handicapAdapte;
 	Booleen dispo;
 	char idEtudOccup[6];
@@ -40,7 +33,7 @@ typedef struct demande{
 	char idEtudDemande[6];
 	int echelonEtud;
 	char *citeDemande;
-	Type type;
+	char type[8];
 }Demande;
 
 typedef struct MailleDema {
@@ -55,6 +48,7 @@ typedef MaillonDemande *ListeDemande;
 Etudiant lireEtud(FILE *fe);
 Logement lireLogement(FILE *feLoge);
 ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande);
+ListeDemande listeVide(void);
 
 Etudiant* chargeEtudiant(FILE *fe, int* nbEtud);
 int chargeLogement(Logement* tab[], int tmax, FILE* feLoge);

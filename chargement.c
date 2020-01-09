@@ -70,7 +70,7 @@ Logement lireLogement(FILE *fe){
     char nomCite[50];
 
     //id logement
-    fscanf(fe,"%s",l.idLoge);
+    fscanf(fe,"%s%*c",l.idLoge);
 
     //nom de la cite
     fgets(nomCite, 50, fe);
@@ -84,7 +84,7 @@ Logement lireLogement(FILE *fe){
     strcpy(l.cite, nomCite);
 
     //Type de logement
-    fscanf(fe," %s",l.type);
+    fscanf(fe,"%s%*c",l.type);
 
     //logement pour handicap
     fscanf(fe,"%d%*c", &l.handicapAdapte);
@@ -94,7 +94,7 @@ Logement lireLogement(FILE *fe){
 
     //Id de l'etusiant qui occupe
     if(l.dispo==0){
-        fscanf(fe," %s",l.idEtudOccup);
+        fscanf(fe,"%s%*c",l.idEtudOccup);
     }
     
     return l;
@@ -123,8 +123,8 @@ ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande) {
   tmp->demande.echelonEtud = demande.echelonEtud;
 
   //copie cite demande
-  taille = strlen(demande.citeDemande);
-  tmp->demande.citeDemande = (char*)malloc(sizeof(char)* taille + 1);
+  tailleCite = strlen(demande.citeDemande);
+  tmp->demande.citeDemande = (char*)malloc(sizeof(char)* tailleCite + 1);
   strcpy(tmp->demande.citeDemande, demande.citeDemande);
 
   //copie type de logement demande
@@ -183,12 +183,13 @@ Etudiant* chargeEtudiant(FILE* fe, int* nbEtud){
          nombre de logement
 
 */
-int chargeLogement(Logement* tab[], int tmax, FILE* feLoge){
+int chargeLogement(Logement* tab[], int tmax, FILE* fe){
 	Logement l;
 	int nbLo=0, i;
 
-	l=lireLogement(feLoge);
-	while(feof(feLoge) == 0){
+	l=lireLogement(fe);
+
+	while(feof(fe) == 0){
 		if(nbLo == tmax){
 			printf("tableau trop petit");
 			for(i=0; i < nbLo; i++){
@@ -205,8 +206,8 @@ int chargeLogement(Logement* tab[], int tmax, FILE* feLoge){
 			return -1;
 		}
 		*tab[nbLo]=l;
-		l=lireLogement(feLoge);
-		nbLo++;
+        nbLo++;
+		l=lireLogement(fe);
 	}
 	return nbLo;
 }
@@ -227,23 +228,22 @@ int chargeLogement(Logement* tab[], int tmax, FILE* feLoge){
          la liste de logement
 
 */
-ListeDemande chargeDemande(FILE* fe, int* nbLog){
-	ListeDemande demandes = NULL;
-    Demande* tab;
-    int i;
+ListeDemande listeVide(void){
+  return NULL;
+}
 
-	fread(nbLog, sizeof(int), 1, fe);
+/*
+ListeDemande chargeDemande(FILE* feDem, int* nbLoge){
+	ListeDemande demandes;
+	MaillonDemande* tmp;
+	int nbDem, i;
+  
+	demandes = listeVide();
 
-	tab=(Demande*)malloc(sizeof(Demande)* *nbLog);
-	if(tab==NULL){  
-    	printf("Problème d'allocation de la mémoire\n");  
-    	exit(1);                                           
-  	}
-	fread(tab, sizeof(MaillonDemande), *nbLog, fe);
-
-    for(i=0; i < *nbLog; i++){
-        demandes=ajouterDemandeListe(demandes, tab[i]);
-    }
-	free(tab);
+	fread(nbDem,sizeof(int),1,feDem);
+	for(i=0;i < nbDem;i++){
+		lireDemande(feDem,tmp);
+	}
 	return demandes;
 }
+*/
