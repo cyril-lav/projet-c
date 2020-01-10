@@ -50,8 +50,8 @@ Logement lireLogement(FILE *feLoge);
 ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande);
 ListeDemande listeVide(void);
 
-Etudiant* chargeEtudiant(FILE *fe, int* nbEtud);
-int chargeLogement(Logement* tab[], int tmax, FILE* feLoge);
+Etudiant* chargeEtudiant(int* nbEtud);
+int chargeLogement(Logement* tab[], int tmax);
 ListeDemande chargeDemande(FILE* fe, int* nbLog);
 
 // Affichage
@@ -61,3 +61,6 @@ void affichLogeDispo(Logement *tabLoge[], int nbLoge);
 void appli(void);
 void triBulle(Logement *tabLoge[], int nb);
 
+void affichEtud(Etudiant *tab,int nbEtud);
+
+void conversion(void);

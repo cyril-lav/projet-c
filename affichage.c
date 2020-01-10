@@ -63,5 +63,5 @@ void affichLogeDispo(Logement* tabLoge[],int nbLog){
 
 void affichEtud(Etudiant *tab,int nbEtud){
 	for(int i=0;i<nbEtud;i++)
-		printf("%s %s %s %s %d %d %d",tab[i].idLoge, tab[i].cite, tab[i].type, tab[i].handicapAdapte, tab[i].dispo, tab[i].idEtudOccup);
+		printf("%s %s %s %s %d %d %d",tab[i].idEtud, tab[i].nom, tab[i].prenom, tab[i].civ, tab[i].handicap, tab[i].boursier, tab[i].echelon);
 }

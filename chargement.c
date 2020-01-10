@@ -149,14 +149,23 @@ ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande) {
          le tableau d'étudiants
 
 */
-Etudiant* chargeEtudiant(FILE* fe, int* nbEtud){
+Etudiant* chargeEtudiant(int* nbEtud){
+	FILE *feEtud;
 	Etudiant* tab;
 	int i;
-	fread(*nbEtud,sizeof(int),1,fe);
+	feEtud=fopen("etudiants.bin","rb");
+	if(feEtud==NULL){
+		printf("Erreur lecture fichier \"etudiants.don\"\n");
+		return NULL;
+	}
+	fread(nbEtud,sizeof(int),1,feEtud);
 	tab=(Etudiant*)malloc(sizeof(Etudiant)* *nbEtud);
-	if(tab==NULL)
-		return -1;
-	fread(tab,sizeof(Etudiant),*nbEtud,fe);
+	if(tab==NULL){
+		printf("Problème allocation mémoire\n");
+		return NULL;
+  	}
+	fread(tab,sizeof(Etudiant),*nbEtud,feEtud);
+	fclose(feEtud);
 	return tab;
 }
 
@@ -178,13 +187,19 @@ Etudiant* chargeEtudiant(FILE* fe, int* nbEtud){
          nombre de logement
 
 */
-int chargeLogement(Logement* tab[], int tmax, FILE* fe){
+int chargeLogement(Logement* tab[], int tmax){
 	Logement l;
+	FILE *feLoge;
 	int nbLo=0, i;
 
-	l=lireLogement(fe);
-
-	while(feof(fe) == 0){
+	feLoge=fopen("logements.don","r");
+	if(feLoge==NULL){
+		printf("Erreur lecture fichier \"logements.don\"\n");
+		return -1;
+	}
+	
+	l=lireLogement(feLoge);
+	while(feof(feLoge) == 0){
 		if(nbLo == tmax){
 			printf("tableau trop petit");
 			for(i=0; i < nbLo; i++){
@@ -202,8 +217,9 @@ int chargeLogement(Logement* tab[], int tmax, FILE* fe){
 		}
 		*tab[nbLo]=l;
         nbLo++;
-		l=lireLogement(fe);
+		l=lireLogement(feLoge);
 	}
+	fclose(feLoge);
 	return nbLo;
 }
 
