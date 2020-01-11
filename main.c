@@ -6,13 +6,15 @@
 void appli(void){
     int choix=0; // Choix dans le menu
     int saveDone=1;
-    int nbLoge, nbEtud;
+    int nbLoge, nbEtud, nbDemande;
     char confirmQuit='X';
     Logement* tabLoge[80];
     Etudiant *tab;
+    ListeDemande l;
 
     nbLoge=chargeLogement(tabLoge, 80);
     tab=chargeEtudiant(&nbEtud);
+    l=chargeDemande(&nbDemande);
 
     menu();
     scanf("%d%*c",&choix);
@@ -20,13 +22,13 @@ void appli(void){
     while(!(choix == 9 && saveDone == 1)){
         switch(choix){
             case 1:
-	         triBulleLoge(tabLoge,nbLoge);
 	         affichLogeDispo(tabLoge,nbLoge);
                 break;
             case 2:
                 affichLogeOccup(tabLoge,nbLoge);
                 break;
             case 3:
+                affichDemande(l);
                 break;
             case 4:
                 break;

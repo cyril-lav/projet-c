@@ -44,20 +44,21 @@ typedef MaillonDemande *ListeDemande;
 
 
 //Chargement
-Etudiant lireEtud(FILE *fe);
 Logement lireLogement(FILE *feLoge);
+Demande lireDemande(FILE *fe);
 ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande);
+ListeDemande ajouterDecroissant(ListeDemande listeDemande, Demande demande);
 ListeDemande listeVide(void);
 
 Etudiant* chargeEtudiant(int* nbEtud);
 int chargeLogement(Logement* tab[], int tmax);
-ListeDemande chargeDemande(FILE* fe, int* nbLog);
+ListeDemande chargeDemande(int* nbDemande);
 
 // Affichage
 void menu(void);
 void affichLogeOccup(Logement *tabLoge[], int nbLoge);
 void affichLogeDispo(Logement *tabLoge[], int nbLoge);
-void affichDemande(Demande *tabDemande[], int nbDemande);
+void affichDemande(ListeDemande l);
 void appli(void);
 void triBulleLoge(Logement *tabLoge[], int nb);
 void triBulleDemande(Demande *tabDemande[], int nbDemande);

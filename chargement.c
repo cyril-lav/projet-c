@@ -3,59 +3,6 @@
 #include <stdlib.h>
 
 /* 
-   Fonction: lireEtud
-   finalité: Lit un etudiant dans le fichier
-   paramètre entrant/sortant :
-		 fe			- flot entrant
-   valeur retournée : l'article lu
-
-*/
-Etudiant lireEtud(FILE *fe){
-  Etudiant e;
-  int tailleNom, taillePrenom;
-  char nom[50], prenom[50];
-
-  //id etudiant
-  fscanf(fe,"%s",e.idEtud);
-
-  //nom
-  fgets(nom, 50, fe);
-  tailleNom=strlen(nom);
-  if (nom[tailleNom-1] == '\n'){
-    nom[tailleNom-1] = '\0';
-	tailleNom--;
-  }
-  e.nom=(char*)malloc(sizeof(char)*(tailleNom+1));
-  if (e.nom == NULL)exit(1);
-  strcpy(e.nom, nom);
-
-  //prenom
-  fgets(prenom, 50, fe);
-  taillePrenom=strlen(prenom);
-  if (prenom[taillePrenom-1] == '\n'){
-    prenom[taillePrenom-1] = '\0';
-	taillePrenom--;
-  }
-  e.prenom=(char*)malloc(sizeof(char)*(taillePrenom+1));
-  if (e.prenom == NULL)exit(1);
-  strcpy(e.prenom, prenom);
-
-  //civilité
-  fscanf(fe,"%s",e.civ);
-
-  //handicap
-  fscanf(fe,"%d%*c", &e.handicap);
-
-  //boursier et si oui echelon
-  fscanf(fe,"%d%*c",&e.boursier);
-  if (e.boursier){
-    fscanf(fe,"%d%*c",&e.echelon);
-  }
-
-  return e;
-}
-
-/* 
    Fonction: lireLogement
    finalité: Lit un logement dans le fichier
    paramètre entrant/sortant :
@@ -99,6 +46,33 @@ Logement lireLogement(FILE *fe){
     return l;
 }
 
+Demande lireDemande(FILE *fe){
+    Demande d;
+    int tailleCite;
+    char nomCite[50];
+
+    fscanf(fe,"%s%*c",d.idDemande);
+
+    fscanf(fe,"%s%*c",d.idEtudDemande);
+
+    fscanf(fe,"%d%*c", &d.echelonEtud);
+
+    fgets(nomCite, 50, fe);
+    tailleCite=strlen(nomCite);
+    if (nomCite[tailleCite-1] == '\n'){
+        nomCite[tailleCite-1] = '\0';
+        tailleCite--;
+    }
+    d.citeDemande=(char*)malloc(sizeof(char)*(tailleCite+1));
+    if (d.citeDemande == NULL)exit(1);
+    strcpy(d.citeDemande, nomCite);
+
+    fscanf(fe,"%s%*c", d.type);
+  
+    return d;
+}
+
+
 
 
 ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande) {
@@ -135,6 +109,21 @@ ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande) {
   return listeDemande;
 }
 
+ListeDemande ajouterDecroissant(ListeDemande listeDemande, Demande demande){
+
+	if(listeDemande == NULL){
+		listeDemande=ajouterDemandeEnTete(listeDemande, demande);
+	}
+	else{
+		if (demande.echelonEtud >= listeDemande->demande.echelonEtud){
+			listeDemande=ajouterDemandeEnTete(listeDemande, demande);
+		}
+		else{
+			listeDemande->suivant=ajouterDecroissant(listeDemande->suivant, demande);
+		}
+	}
+	return listeDemande;
+}
 
 /* 
    Fonction: chargeEtudiant
@@ -152,18 +141,22 @@ Etudiant* chargeEtudiant(int* nbEtud){
 	FILE *feEtud;
 	Etudiant* tab;
 	int i;
+
 	feEtud=fopen("etudiants.bin","rb");
 	if(feEtud==NULL){
 		printf("Erreur lecture fichier \"etudiants.don\"\n");
 		return NULL;
 	}
+
 	fread(nbEtud,sizeof(int),1,feEtud);
+	
 	tab=(Etudiant*)malloc(sizeof(Etudiant)* *nbEtud);
 	if(tab==NULL){
 		printf("Problème allocation mémoire\n");
 		return NULL;
   	}
 	fread(tab,sizeof(Etudiant),*nbEtud,feEtud);
+
 	fclose(feEtud);
 	return tab;
 }
@@ -226,34 +219,32 @@ int chargeLogement(Logement* tab[], int tmax){
 
 
 
-/* 
-   Fonction: chargeDemande
-   finalité: Charge les logements dans une liste chainée
-   
-   paramètre entrant/sortant :
-         fe		    - flot d'entrée
-		 nbLog		- nombre de logement
-		 
-   valeur retournée : 
-         la liste de logement
 
-*/
 ListeDemande listeVide(void){
   return NULL;
 }
 
-/*
-ListeDemande chargeDemande(FILE* feDem, int* nbLoge){
+
+
+ListeDemande chargeDemande(int* nbDemande){
+	FILE* feDemande;
 	ListeDemande demandes;
 	MaillonDemande* tmp;
 	int nbDem, i;
   
-	demandes = listeVide();
-
-	fread(nbDem,sizeof(int),1,feDem);
-	for(i=0;i < nbDem;i++){
-		lireDemande(feDem,tmp);
+	feDemande=fopen("demandes.don","r");
+	if(feDemande == NULL){
+		printf("Erreur lecture fichier \"demandes.don\"\n");
+		return NULL;
 	}
+
+	demandes = listeVide();
+	tmp->demande=lireDemande(feDemande);
+	while(feof(feDemande) == 0){
+		demandes=ajouterDecroissant(demandes, tmp->demande);
+		tmp->demande=lireDemande(feDemande);
+		*nbDemande++;
+	}
+
 	return demandes;
 }
-*/

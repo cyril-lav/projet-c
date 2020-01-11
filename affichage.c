@@ -53,12 +53,10 @@ void affichEtud(Etudiant *tab,int nbEtud){
 		printf("%s %s %s %s %d %d %d",tab[i].idEtud, tab[i].nom, tab[i].prenom, tab[i].civ, tab[i].handicap, tab[i].boursier, tab[i].echelon);
 }
 
-void affichDemande(Demande* tabDemande[], int nbDemande){
-  int i;
-  triBulleDemande(tabDemande,nbDemande);
-  for(i=0; i < nbDemande ; i++){
-    printf("%s %s %d %s %s",tabDemande[i]->idDemande, tabDemande[i]->idEtudDemande, tabDemande[i]->echelonEtud, tabDemande[i]->citeDemande, tabDemande[i]->type);
-  }
+void affichDemande(ListeDemande l){
+	if(l == NULL)return;
+	printf("%s %s %d %s %s",l->demande.idDemande, l->demande.idEtudDemande, l->demande.echelonEtud, l->demande.citeDemande, l->demande.type);
+	affichDemande(l->suivant);
 }
 
 
