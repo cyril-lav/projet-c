@@ -18,11 +18,11 @@ void appli(void){
     while(!(choix == 9 && saveDone == 1)){
         switch(choix){
             case 1:
-                affichLogeDispo(tabLoge, nbLoge);
+	         triBulleLoge(tabLoge,nbLoge);
+	         affichLogeDispo(tabLoge,nbLoge);
                 break;
             case 2:
-                affichEtud(tab,nbEtud);
-                //affichLogeOccup(tabLoge,nbLoge);
+                affichLogeOccup(tabLoge,nbLoge);
                 break;
             case 3:
                 break;

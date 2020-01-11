@@ -3,6 +3,15 @@
 #include <string.h>
 #include <stdlib.h>
 
+
+#define BLEUCLAIR "\033[01;34m"
+#define ROUGE "\033[00;31m"
+#define BLEU "\033[00;34m"
+
+
+
+
+
 // J'adore Cyril
 
 
@@ -17,13 +26,13 @@ void menu(void){
   printf("#  5-Création Demande Logement                #\n");
   printf("#  6-Annulation Demande Logement              #\n");
   printf("#  7-Libération Logement -> Attribution Auto  #\n");
-  printf("#  8-Sauvegarde                               #\n");
+  printf("#  8-Sauvegarde des fichier                   #\n");
   printf("#  9-Quitter                                  #\n");
   printf("###############################################\n\n");
 }
 
 
-void triBulle(Logement* tabLoge[],int nb){
+void triBulleLoge(Logement* tabLoge[],int nb){
   int i, cpt=0;
   Logement* logementReserve;
   if(nb==0 || nb==1) return;
@@ -36,32 +45,113 @@ void triBulle(Logement* tabLoge[],int nb){
     }
   }
   if(cpt!=0){
-    triBulle(tabLoge,nb-1);
+    triBulleLoge(tabLoge,nb-1);
   }
 }
 
-//void affichLogeOccup(Logement loge){
-// printf(" %s %s\t%s\t%d %d \t/*%s*/ \n",loge.idLoge,loge.cite,loge.type,loge.handicapAdapte,loge.dispo/*,loge.idEtudOccup*/);
-//}
+void triBulleDemande(Demande* tabDemande[],int nbDemande){
+  int i, cpt=0;
+  Demande* d;
+  if(nbDemande==0 || nbDemande==1) return;
+  for(i=0;i<nbDemande-1;i++){
+    if(tabDemande[i]->echelonEtud < tabDemande[i+1]->echelonEtud){
+      d=tabDemande[i+1];
+      tabDemande[i+1]=tabDemande[i];
+      tabDemande[i]=d;
+      cpt++;
+    }
+  }
+  if(cpt!=0){
+    triBulleDemande(tabDemande,nbDemande-1);
+  }
+}
 
+void affichLogeOccup(Logement* tabLoge[],int nbLog){
+  int i;
+  for(i=0; i < nbLog; i++){
+    if(tabLoge[i]->dispo == 0){
+      printf("%s %s %s \t %d %d %s \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
+    }
+  }
+}
   
 
 // Menu -> 1)
 void affichLogeDispo(Logement* tabLoge[],int nbLog){
   int i;
-  printf("%d\n",nbLog);
   for(i=0; i < nbLog; i++){
-    printf("%s %s %s %d %d ", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);
-    if(tabLoge[i]->dispo == 0){
-      printf("%s",tabLoge[i]->idEtudOccup);
+    if(tabLoge[i]->dispo == 1){
+      printf("%s %s %s \t %d %d \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);
     }
-    printf("\n");
   }
 }
-
-// printf(" %s\n||%s\n\t%s\n || \t%d || %d\n",loge.idLoge,loge.cite,loge.type,loge.handicapAdapte,loge.dispo);
 
 void affichEtud(Etudiant *tab,int nbEtud){
 	for(int i=0;i<nbEtud;i++)
 		printf("%s %s %s %s %d %d %d",tab[i].idEtud, tab[i].nom, tab[i].prenom, tab[i].civ, tab[i].handicap, tab[i].boursier, tab[i].echelon);
+}
+
+void affichDemande(Demande* tabDemande[], int nbDemande){
+  int i;
+  triBulleDemande(tabDemande,nbDemande);
+  for(i=0; i < nbDemande ; i++){
+    printf("%s %s %d %s %s",tabDemande[i]->idDemande, tabDemande[i]->idEtudDemande, tabDemande[i]->echelonEtud, tabDemande[i]->citeDemande, tabDemande[i]->type);
+  }
+}
+
+
+/////////////////////////////////////////////////////////////////:
+
+void sauvEtud(Etudiant tEtud[], char nomFichier[30], int nbEtud){
+  FILE* fs;
+  fs=fopen(nomFichier,"wb");
+  if(fs==NULL){
+    printf("Problème ouverture fichier\n");
+    return;
+  }
+  fprintf(fs,"%d",nbEtud);
+  fwrite(tEtud,sizeof(Etudiant),nbEtud,fs);
+  fclose(fs);
+}
+
+Etudiant* restaureEtud(char nomFichier[30], int *nbEtud){
+  FILE* fe;
+  Etudiant* d;
+  fe=fopen(nomFichier,"rb");
+  if(fe==NULL){
+    printf("Problème ouverture fichier\n");
+    exit(1);
+  }
+  fscanf(fe,"%d",*nbEtud);
+  d=(Etudiant*)malloc(sizeof(Etudiant)* *nbEtud);
+  if(d==NULL){
+    printf("Problème allocation mémoire\n");
+    exit(1);
+  }
+  fread(d,sizeof(Etudiant),*nbEtud,fe);
+  fclose(fe);
+  return d;
+}
+
+void sauvLoge(Logement* tabLoge[], char nomFichier[30], int nbLoge){
+  FILE* fs;
+  int i;
+  fs=fopen(nomFichier,"w");
+  if(fs==NULL){
+    printf("Problème ouverture fichier\n");
+    return;
+  }
+  fprintf(fs,"%d\n",nbLoge);
+  for(i=0 ; i<nbLoge ; i++){
+    if(tabLoge[i]->dispo == 1){
+      printf("%s %s %s \t %d %d \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);
+    }
+    if(tabLoge[i]->dispo == 0){
+      printf("%s %s %s \t %d %d %s \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
+    }
+  }
+}
+
+void sauvDemande(){
+
 }

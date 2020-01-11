@@ -58,8 +58,15 @@ ListeDemande chargeDemande(FILE* fe, int* nbLog);
 void menu(void);
 void affichLogeOccup(Logement *tabLoge[], int nbLoge);
 void affichLogeDispo(Logement *tabLoge[], int nbLoge);
+void affichDemande(Demande *tabDemande[], int nbDemande);
 void appli(void);
-void triBulle(Logement *tabLoge[], int nb);
+void triBulleLoge(Logement *tabLoge[], int nb);
+void triBulleDemande(Demande *tabDemande[], int nbDemande);
+
+void sauvEtud(Etudiant tEtud[], char nomFichier[30], int nbEtud);
+Etudiant* restaureEtud(char nomFichier[30], int *nbEtud);
+void sauvLoge(Logement* tabLoge[], char nomFichier[30], int nbLoge);
+void sauvDemande();
 
 void affichEtud(Etudiant *tab,int nbEtud);
 
