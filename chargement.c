@@ -226,10 +226,10 @@ ListeDemande listeVide(void){
 
 
 
-ListeDemande chargeDemande(int* nbDemande){
+ListeDemande chargeDemande(void){
 	FILE* feDemande;
 	ListeDemande demandes;
-	MaillonDemande* tmp;
+	Demande demande;
 	int nbDem, i;
   
 	feDemande=fopen("demandes.don","r");
@@ -239,11 +239,10 @@ ListeDemande chargeDemande(int* nbDemande){
 	}
 
 	demandes = listeVide();
-	tmp->demande=lireDemande(feDemande);
+	demande=lireDemande(feDemande);
 	while(feof(feDemande) == 0){
-		demandes=ajouterDecroissant(demandes, tmp->demande);
-		tmp->demande=lireDemande(feDemande);
-		*nbDemande++;
+		demandes=ajouterDecroissant(demandes, demande);
+		demande=lireDemande(feDemande);
 	}
 
 	return demandes;

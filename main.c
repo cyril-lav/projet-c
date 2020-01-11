@@ -14,7 +14,7 @@ void appli(void){
 
     nbLoge=chargeLogement(tabLoge, 80);
     tab=chargeEtudiant(&nbEtud);
-    l=chargeDemande(&nbDemande);
+    l=chargeDemande();
 
     menu();
     scanf("%d%*c",&choix);

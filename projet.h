@@ -52,7 +52,7 @@ ListeDemande listeVide(void);
 
 Etudiant* chargeEtudiant(int* nbEtud);
 int chargeLogement(Logement* tab[], int tmax);
-ListeDemande chargeDemande(int* nbDemande);
+ListeDemande chargeDemande(void);
 
 // Affichage
 void menu(void);
