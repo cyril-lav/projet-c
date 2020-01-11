@@ -31,6 +31,7 @@ void appli(void){
                 affichDemande(l);
                 break;
             case 4:
+                affichEtud(tab,nbEtud);
                 break;
             case 5:
                 break;

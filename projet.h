@@ -71,3 +71,8 @@ void sauvDemande();
 void affichEtud(Etudiant *tab,int nbEtud);
 
 void conversion(void);
+
+// Traitement
+void copier(Etudiant *tabEtud,int deb, int fin, Etudiant tab[]);
+void fusion(Etudiant tab1[],int nbtab1, Etudiant tab2[], int nbtab2,Etudiant tabEtud[]);
+void triDichoEtud(Etudiant *tabEtud,int nbEtud);

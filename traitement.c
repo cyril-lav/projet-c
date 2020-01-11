@@ -37,25 +37,52 @@ void triBulleLoge(Logement* tabLoge[],int nb){
 }
 
 
-void triDicho(Etudiant *tabEtud,int nbEtud){
+void copier(Etudiant *tabEtud,int deb, int fin, Etudiant tab[]){
+    int i=0;
+    while(deb<fin){
+        tab[i]=tabEtud[deb];
+        deb++;
+        i++;
+    }
+}
+
+
+void fusion(Etudiant tab1[],int nbtab1, Etudiant tab2[], int nbtab2,Etudiant tabEtud[]){
+    int cpt1, cpt2, cptEtud;
+    while(cpt1<nbtab1 && cpt2<nbtab2){
+        if(strcmp(tab1[cpt1].idEtud,tab2[cpt2].idEtud)<0){
+            tabEtud[cptEtud]=tab1[cpt1];
+            cpt1++;
+            cptEtud++;
+        }
+        else{
+            tabEtud[cptEtud]=tab2[cpt2];
+            cpt2++;
+            cptEtud++;
+        }
+    }
+}
+
+void triDichoEtud(Etudiant *tabEtud,int nbEtud){
     Etudiant *tab1, *tab2;
     if(nbEtud==1)
         return;
     tab1=(Etudiant*)malloc((nbEtud/2)*sizeof(Etudiant));
     if(tab1==NULL){
-        printf("Problème allocation mémoire (triDicho)\n");
+        printf("Problème allocation mémoire (triDichoEtud)\n");
         return;
     }
     tab2=(Etudiant*)malloc((nbEtud-nbEtud/2)*sizeof(Etudiant));
     if(tab2==NULL){
-        printf("Problème allocation mémoire (triDicho)\n");
+        printf("Problème allocation mémoire (triDichoEtud)\n");
         return;
     }
     copier(tabEtud,0,nbEtud/2,tab1);
     copier(tabEtud,nbEtud/2,nbEtud,tab2);
-    triDicho(tab1,nbEtud/2);
-    triDicho(tab2,nbEtud-nbEtud/2);
+    triDichoEtud(tab1,nbEtud/2);
+    triDichoEtud(tab2,nbEtud-nbEtud/2);
     fusion(tab1,nbEtud/2,tab2,nbEtud-nbEtud/2,tabEtud);
     free(tab1);
     free(tab2);
 }
+

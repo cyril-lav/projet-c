@@ -49,8 +49,12 @@ void affichLogeDispo(Logement* tabLoge[],int nbLog){
 }
 
 void affichEtud(Etudiant *tab,int nbEtud){
-	for(int i=0;i<nbEtud;i++)
-		printf("%s %s %s %s %d %d %d",tab[i].idEtud, tab[i].nom, tab[i].prenom, tab[i].civ, tab[i].handicap, tab[i].boursier, tab[i].echelon);
+	for(int i=0;i<nbEtud;i++){
+		printf("%s %s %s %s %d %d",tab[i].idEtud, tab[i].nom, tab[i].prenom, tab[i].civ, tab[i].handicap, tab[i].boursier);
+		if(tab[i].boursier==1)
+			printf("%d",tab[i].echelon);
+		printf("\n");	
+  }
 }
 
 void affichDemande(ListeDemande l){
