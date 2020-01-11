@@ -1,5 +1,4 @@
 #include "projet.h"
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -9,10 +8,6 @@
 #define BLEU "\033[00;34m"
 
 
-
-
-
-// J'adore Cyril
 
 
 
@@ -32,39 +27,6 @@ void menu(void){
 }
 
 
-void triBulleLoge(Logement* tabLoge[],int nb){
-  int i, cpt=0;
-  Logement* logementReserve;
-  if(nb==0 || nb==1) return;
-  for(i=0;i<nb-1;i++){
-    if(strcmp(tabLoge[i]->cite,tabLoge[i+1]->cite)>0){
-      logementReserve=tabLoge[i+1];
-      tabLoge[i+1]=tabLoge[i];
-      tabLoge[i]=logementReserve;
-      cpt++;
-    }
-  }
-  if(cpt!=0){
-    triBulleLoge(tabLoge,nb-1);
-  }
-}
-
-void triBulleDemande(Demande* tabDemande[],int nbDemande){
-  int i, cpt=0;
-  Demande* d;
-  if(nbDemande==0 || nbDemande==1) return;
-  for(i=0;i<nbDemande-1;i++){
-    if(tabDemande[i]->echelonEtud < tabDemande[i+1]->echelonEtud){
-      d=tabDemande[i+1];
-      tabDemande[i+1]=tabDemande[i];
-      tabDemande[i]=d;
-      cpt++;
-    }
-  }
-  if(cpt!=0){
-    triBulleDemande(tabDemande,nbDemande-1);
-  }
-}
 
 void affichLogeOccup(Logement* tabLoge[],int nbLog){
   int i;

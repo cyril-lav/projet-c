@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+
 
 typedef enum booleen{FAUX=0,VRAI=1} Booleen;
 

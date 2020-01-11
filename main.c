@@ -1,5 +1,7 @@
 #define TAILLE 100
 #include "projet.h"
+#include <string.h>
+#include <stdlib.h>
 
 void appli(void){
     int choix=0; // Choix dans le menu
