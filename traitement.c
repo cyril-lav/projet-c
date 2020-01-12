@@ -202,7 +202,7 @@ ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabL
 			return NULL;
 		if(tabLoge[i]->dispo==1){
 			listeDemandes=rechercheEtSuppressionDemande(tabLoge[i]->cite, tabLoge[i]->type,listeDemandes, idEtud);
-			if(idEtud!=00000){
+			if(strcmp(idEtud,"00000")!=0){
 				tabLoge[i]->dispo=0;
 				strcpy(tabLoge[i]->idEtudOccup,idEtud);
 				strcpy(idEtud,"00000");
@@ -211,3 +211,4 @@ ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabL
 	}
 	return listeDemandes;
 }
+
