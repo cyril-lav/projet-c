@@ -37,6 +37,34 @@ void triBulleLoge(Logement* tabLoge[],int nb){
 }
 
 
+int posMin(Logement* tabLoge[], int nbLoge){
+  char* min=tabLoge[0]->cite;
+  int pos=0, i;
+  for(i=1 ; i<nbLoge ; i++){
+    if(strcmp(tabLoge[i]->cite,min)>0){
+      min=tabLoge[i]->cite;
+      pos=i;
+    }
+  }
+  return pos;
+}
+
+void triSelectEchLoge(Logement* tabLoge[], int nb){
+  int pos;
+  Logement* loge;
+  if(nb==0 || nb==1){
+    return;
+  }
+  pos=posMin(tabLoge,nb);
+  if(pos!=0){
+    loge=tabLoge[0];
+    tabLoge[0]=tabLoge[pos];
+    tabLoge[pos]=loge;
+    triSelectEchLoge(tabLoge+1,nb-1);
+  }
+}
+
+
 void copier(Etudiant *tabEtud,int deb, int fin, Etudiant tab[]){
     int i=0;
     while(deb<fin){

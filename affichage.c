@@ -30,6 +30,7 @@ void menu(void){
 
 void affichLogeOccup(Logement* tabLoge[],int nbLog){
   int i;
+  triSelectEchLoge(tabLoge,nbLog);
   for(i=0; i < nbLog; i++){
     if(tabLoge[i]->dispo == 0){
       printf("%s %s %s \t %d %d %s \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
@@ -41,6 +42,7 @@ void affichLogeOccup(Logement* tabLoge[],int nbLog){
 // Menu -> 1)
 void affichLogeDispo(Logement* tabLoge[],int nbLog){
   int i;
+  triSelectEchLoge(tabLoge,nbLog);
   for(i=0; i < nbLog; i++){
     if(tabLoge[i]->dispo == 1){
       printf("%s %s %s \t %d %d \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);

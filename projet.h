@@ -63,6 +63,8 @@ void affichDemande(ListeDemande l);
 void appli(void);
 void triBulleLoge(Logement *tabLoge[], int nb);
 void triBulleDemande(Demande *tabDemande[], int nbDemande);
+void triSelectEchLoge(Logement* tabLoge[],int nb);
+int posMin(Logement* tabLoge[], int nbLoge);
 
 void sauvEtud(Etudiant tEtud[], char nomFichier[30], int nbEtud);
 Etudiant* restaureEtud(char nomFichier[30], int *nbEtud);
