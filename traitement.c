@@ -175,25 +175,39 @@ void nouvelleDemande(Etudiant *tabEtud, ListeDemande l){
 }
 
 
-MaillonDemande* rechercheDemande(char cite[], char type[], ){
-	
+ListeDemande rechercheEtSuppressionDemande(char cite[], char type[], ListeDemande listeDemandes, char idEtud[]){
+	int cmpCite, cmpType;
+	MaillonDemande *tmp;
+	if(listeDemandes==NULL)
+		return listeDemandes;
+	cmpCite=strcmp(listeDemandes->suiv->demande.citeDemande,cite);
+	cmpType=strcmp(listeDemandes->suiv->demande.type,type);
+	if(cmpCite==0 && cmpType==0){
+		strcpy(idEtud,listeDemandes->suiv->demande.idEtudDemande);
+		tmp=listeDemandes;
+		listeDemandes=tmp->suiv;
+		free(tmp);
+	}
+	else
+		listeDemandes->suiv=echercheEtSuppressionDemande(cite, type, listeDemandes->suiv, idEtud);
+	return listeDemandes;
 }
 
-int traitementDemandeAttente(ListeDemande *listeDemandes, Logement *tabLoge[],int nbDem, int nbLoge){
-	MaillonDemande *demande;
+ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabLoge[], int nbLoge){
 	int pos;
-	demande=(MaillonDemande*)malloc(sizeof(MaillonDemande));
+	char idEtud[6]="00000";
+
 	for(int i=0; i<nbLoge;i++){
-		if(nbDem==0)
-			return nbDem;
+		if(listeDemandes==NULL)
+			return NULL;
 		if(tabLoge[i]->dispo==1){
-			demande=rechercheDemande(tabLoge[i]->cite, tabLoge[i]->type,listeDemandes);
-			if(demande!=NULL){
-				listeDemandes=supprimerDemande(listeDemandes, demande);
-				nbDem--;
+			listeDemandes=rechercheEtSuppressionDemande(tabLoge[i]->cite, tabLoge[i]->type,listeDemandes, idEtud);
+			if(idEtud!=00000){
 				tabLoge[i]->dispo=0;
+				strcpy(tabLoge[i]->idEtudOccup,idEtud);
+				strcpy(idEtud,"00000");
 			}
 		}	
 	}
-  	return nbDem;
+	return listeDemandes;
 }

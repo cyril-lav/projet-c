@@ -62,7 +62,7 @@ void affichEtud(Etudiant *tab,int nbEtud){
 void affichDemande(ListeDemande l){
 	if(l == NULL)return;
 	printf("%s %s %d %s %s\n",l->demande.idDemande, l->demande.idEtudDemande, l->demande.echelonEtud, l->demande.citeDemande, l->demande.type);
-	affichDemande(l->suivant);
+	affichDemande(l->suiv);
 }
 
 

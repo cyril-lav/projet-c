@@ -6,7 +6,7 @@
 void appli(void){
     int choix=0; // Choix dans le menu
     int saveDone=1;
-    int nbLoge, nbEtud, nbDemande;
+    int nbLoge, nbEtud;
     char confirmQuit='X';
     Logement* tabLoge[80];
     Etudiant *tab;
@@ -14,7 +14,7 @@ void appli(void){
 
     nbLoge=chargeLogement(tabLoge, 80);
     tab=chargeEtudiant(&nbEtud);
-    listeDemandes=chargeDemande(&nbDemande);
+    listeDemandes=chargeDemande();
 
     menu();
     scanf("%d%*c",&choix);

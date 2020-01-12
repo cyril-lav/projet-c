@@ -183,7 +183,7 @@ ListeDemande ajouterDemandeEnTete(ListeDemande listeDemandes, Demande demande) {
   //copie type de logement demande
   strcpy(tmp->demande.type, demande.type);
   
-  tmp->suivant = listeDemandes;
+  tmp->suiv = listeDemandes;
   listeDemandes=tmp;
 
   return listeDemandes;
@@ -199,7 +199,7 @@ ListeDemande ajouterDecroissant(ListeDemande listeDemandes, Demande demande){
 			listeDemandes=ajouterDemandeEnTete(listeDemandes, demande);
 		}
 		else{
-			listeDemandes->suivant=ajouterDecroissant(listeDemandes->suivant, demande);
+			listeDemandes->suiv=ajouterDecroissant(listeDemandes->suiv, demande);
 		}
 	}
 	return listeDemandes;
@@ -210,7 +210,7 @@ ListeDemande listeVide(void){
 }
 
 
-ListeDemande chargeDemande(int *nbDem){
+ListeDemande chargeDemande(void){
 	FILE* feDemande;
 	ListeDemande listeDemandes;
 	Demande demande;
@@ -223,9 +223,9 @@ ListeDemande chargeDemande(int *nbDem){
 	}
 
 	listeDemandes = listeVide();
-    fread(nbDem,sizeof(int),1,feDemande);
+
 	fread(&demande,sizeof(Demande),1,feDemande);
-	for(i=0; i<*nbDem;i++){
+	while(!feof(feDemande)){
 		listeDemandes=ajouterDecroissant(listeDemandes, demande);
 		fread(&demande,sizeof(Demande),1,feDemande);
 	}
