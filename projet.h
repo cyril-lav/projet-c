@@ -80,3 +80,7 @@ void fusion(Etudiant tab1[],int nbtab1, Etudiant tab2[], int nbtab2,Etudiant tab
 void triDichoEtud(Etudiant *tabEtud,int nbEtud);
 ListeDemande rechercheEtSuppressionDemande(char cite[], char type[], ListeDemande listeDemandes, char idEtud[]);
 ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabLoge[], int nbLoge);
+ListeDemande supprimerEnTete(ListeDemande listeDemandes);
+ListeDemande annulationDemande(ListeDemande listeDemandes,char idDemande[]);
+
+
