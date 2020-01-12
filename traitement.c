@@ -86,3 +86,86 @@ void triDichoEtud(Etudiant *tabEtud,int nbEtud){
     free(tab2);
 }
 
+int rechercheDichoEtud(Etudiant* tabEtud, int tlog, char etud[]){
+	int deb=0, m, fin=tlog-1, cmp;
+	while(deb <= fin){
+		m=(deb+fin)/2;
+		cmp=strcmp(etud, tabEtud[m].idEtud);
+		if(cmp == 0)return m;
+		if (cmp < 0)fin=m-1;
+		else deb=m+1;
+	}
+	return -1;
+}
+
+void saisieEtudControle(Etudiant* tabEtud, int* tlog){
+	int res, l;
+	char etudSaisie[6], chaine[50];
+	Etudiant e;
+
+	printf("Veuillez saisir l'ID de l'étudiant: ");
+	scanf("%s ", etudSaisie);
+	
+	res=rechercheDichoEtud(tabEtud, *tlog, etudSaisie);
+	if (res == -1){
+		strcpy(e.idEtud, etudSaisie);
+
+		printf("Veuillez saisir le nom de l'étudiant: ");
+		fgets(chaine,50,stdin);
+    	l=strlen(chaine);
+    	if(chaine[l-1]=='\n'){
+        	chaine[l-1]='\0';
+        	l--;
+    	}
+    	e.nom=(char*)malloc(sizeof(char)*(l+1));
+    	if(e.nom==NULL)
+        	exit(1);
+    	strcpy(e.nom,chaine);
+
+		printf("Veuillez saisir le prénom de l'étudiant: ");
+	    fgets(chaine,50,stdin);
+	    l=strlen(chaine);
+	    if(chaine[l-1]=='\n'){
+	        chaine[l-1]='\0';
+        	l--;
+    	}
+    	e.prenom=(char*)malloc(sizeof(char)*(l+1));
+    	if(e.prenom==NULL)
+        	exit(1);
+    	strcpy(e.prenom,chaine);
+		
+		printf("Saisir la civilité de l'étudiant (Mr/Mme): ");
+		
+	}
+
+	
+}
+
+
+void nouvelleDemande(Etudiant *tabEtud, ListeDemande l){
+	
+}
+
+
+MaillonDemande* rechercheDemande(char cite[], char type[], ){
+	
+}
+
+int traitementDemandeAttente(ListeDemande *listeDemandes, Logement *tabLoge[],int nbDem, int nbLoge){
+	MaillonDemande *demande;
+	int pos;
+	demande=(MaillonDemande*)malloc(sizeof(MaillonDemande));
+	for(int i=0; i<nbLoge;i++){
+		if(nbDem==0)
+			return nbDem;
+		if(tabLoge[i]->dispo==1){
+			demande=rechercheDemande(tabLoge[i]->cite, tabLoge[i]->type,listeDemandes);
+			if(demande!=NULL){
+				listeDemandes=supprimerDemande(listeDemandes, demande);
+				nbDem--;
+				tabLoge[i]->dispo=0;
+			}
+		}	
+	}
+  	return nbDem;
+}

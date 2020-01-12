@@ -37,7 +37,8 @@ typedef struct demande{
 
 typedef struct MailleDema {
     Demande demande;
-    struct MailleDema* suivant;
+	struct MaillDema* prec;
+    struct MailleDema* suiv;
 } MaillonDemande;
 
 typedef MaillonDemande *ListeDemande;
@@ -52,7 +53,7 @@ ListeDemande listeVide(void);
 
 Etudiant* chargeEtudiant(int* nbEtud);
 int chargeLogement(Logement* tab[], int tmax);
-ListeDemande chargeDemande(void);
+ListeDemande chargeDemande(int *nbDem);
 
 // Affichage
 void menu(void);

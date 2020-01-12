@@ -10,11 +10,11 @@ void appli(void){
     char confirmQuit='X';
     Logement* tabLoge[80];
     Etudiant *tab;
-    ListeDemande l;
+    ListeDemande *listeDemandes;
 
     nbLoge=chargeLogement(tabLoge, 80);
     tab=chargeEtudiant(&nbEtud);
-    l=chargeDemande();
+    listeDemandes=chargeDemande(&nbDemande);
 
     menu();
     scanf("%d%*c",&choix);
@@ -28,7 +28,7 @@ void appli(void){
                 affichLogeOccup(tabLoge,nbLoge);
                 break;
             case 3:
-                affichDemande(l);
+                affichDemande(listeDemandes);
                 break;
             case 4:
                 affichEtud(tab,nbEtud);

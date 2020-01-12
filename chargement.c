@@ -210,11 +210,11 @@ ListeDemande listeVide(void){
 }
 
 
-ListeDemande chargeDemande(void){
+ListeDemande chargeDemande(int *nbDem){
 	FILE* feDemande;
 	ListeDemande listeDemandes;
 	Demande demande;
-	int nbDem, i;
+	int i;
   
 	feDemande=fopen("demandes.bin","rb");
 	if(feDemande == NULL){
@@ -223,8 +223,9 @@ ListeDemande chargeDemande(void){
 	}
 
 	listeDemandes = listeVide();
+    fread(nbDem,sizeof(int),1,feDemande);
 	fread(&demande,sizeof(Demande),1,feDemande);
-	while(feof(feDemande) == 0){
+	for(i=0; i<*nbDem;i++){
 		listeDemandes=ajouterDecroissant(listeDemandes, demande);
 		fread(&demande,sizeof(Demande),1,feDemande);
 	}
