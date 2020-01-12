@@ -2,6 +2,78 @@
 #include <string.h>
 #include <stdlib.h>
 
+
+/* 
+   Fonction: lireEtud
+   finalité: Lit un etudiant dans le fichier
+   paramètre entrant/sortant :
+		 fe			- flot entrant
+   valeur retournée : l'article lu
+*/
+Etudiant lireEtud(FILE *fe){
+  Etudiant e;
+  int l;
+  char chaine[50];
+
+  	fscanf(fe,"%s%*c", e.idEtud);
+
+    fgets(chaine,50,fe);
+    l=strlen(chaine);
+    if(chaine[l-1]=='\n'){
+        chaine[l-1]='\0';
+        l--;
+    }
+    e.nom=(char*)malloc(sizeof(char)*(l+1));
+    if(e.nom==NULL)
+        exit(1);
+    strcpy(e.nom,chaine);
+        
+    fgets(chaine,50,fe);
+    l=strlen(chaine);
+    if(chaine[l-1]=='\n'){
+        chaine[l-1]='\0';
+        l--;
+    }
+    e.prenom=(char*)malloc(sizeof(char)*(l+1));
+    if(e.prenom==NULL)
+        exit(1);
+    strcpy(e.prenom,chaine);
+    fscanf(fe,"%s %d %d ", e.civ, &e.handicap, &e.boursier);
+	fscanf(fe,"%d%*c",&e.echelon);
+	
+  return e;
+}
+
+
+Etudiant* chargeEtudiant(int* nbEtud){
+	FILE *feEtud;
+	Etudiant* tab;
+	int i;
+
+	feEtud=fopen("etudiants.don","r");
+	if(feEtud==NULL){
+		printf("Erreur lecture fichier \"etudiants.don\"\n");
+		return NULL;
+	}
+
+    fscanf(feEtud, "%d", nbEtud);
+
+    tab=(Etudiant*)malloc(*nbEtud*sizeof(Etudiant));
+    if (tab == NULL){
+        printf("Problème d'allocation de mémoire pour le tab Etudiant");
+        exit(1);
+    }
+    for(i=0; i < *nbEtud; i++){
+        tab[i]=lireEtud(feEtud);
+    }
+    
+	fclose(feEtud);
+	return tab;
+}
+
+
+
+
 /* 
    Fonction: lireLogement
    finalité: Lit un logement dans le fichier
@@ -46,139 +118,7 @@ Logement lireLogement(FILE *fe){
     return l;
 }
 
-Demande lireDemande(FILE *fe){
-    Demande d;
-    int tailleCite;
-    char nomCite[50];
 
-    fscanf(fe,"%s%*c",d.idDemande);
-
-    fscanf(fe,"%s%*c",d.idEtudDemande);
-
-    fscanf(fe,"%d%*c", &d.echelonEtud);
-
-    fgets(nomCite, 50, fe);
-    tailleCite=strlen(nomCite);
-    if (nomCite[tailleCite-1] == '\n'){
-        nomCite[tailleCite-1] = '\0';
-        tailleCite--;
-    }
-    d.citeDemande=(char*)malloc(sizeof(char)*(tailleCite+1));
-    if (d.citeDemande == NULL)exit(1);
-    strcpy(d.citeDemande, nomCite);
-
-    fscanf(fe,"%s%*c", d.type);
-  
-    return d;
-}
-
-
-
-
-ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande) {
-  MaillonDemande* tmp;
-
-  int tailleCite;
-
-  tmp = (MaillonDemande*) malloc(sizeof(MaillonDemande));
-  if(tmp == NULL) {
-      printf("Problème mémoire");
-      exit(1);
-  }
-
-  //copie id logement
-  strcpy(tmp->demande.idDemande, demande.idDemande);
-
-  //copie id etud
-  strcpy(tmp->demande.idEtudDemande, demande.idEtudDemande);
-
-  //copie echelon
-  tmp->demande.echelonEtud = demande.echelonEtud;
-
-  //copie cite demande
-  tailleCite = strlen(demande.citeDemande);
-  tmp->demande.citeDemande = (char*)malloc(sizeof(char)* tailleCite + 1);
-  strcpy(tmp->demande.citeDemande, demande.citeDemande);
-
-  //copie type de logement demande
-  strcpy(tmp->demande.type, demande.type);
-  
-  tmp->suivant = listeDemande;
-  listeDemande=tmp;
-
-  return listeDemande;
-}
-
-ListeDemande ajouterDecroissant(ListeDemande listeDemande, Demande demande){
-
-	if(listeDemande == NULL){
-		listeDemande=ajouterDemandeEnTete(listeDemande, demande);
-	}
-	else{
-		if (demande.echelonEtud >= listeDemande->demande.echelonEtud){
-			listeDemande=ajouterDemandeEnTete(listeDemande, demande);
-		}
-		else{
-			listeDemande->suivant=ajouterDecroissant(listeDemande->suivant, demande);
-		}
-	}
-	return listeDemande;
-}
-
-/* 
-   Fonction: chargeEtudiant
-   finalité: Charge les etudiants dans un tableau
-   
-   paramètre entrant/sortant :
-         fe		    - flot d'entrée
-	     nbEtud		- nombre d'étudiants
-		 
-   valeur retournée : 
-         le tableau d'étudiants
-
-*/
-Etudiant* chargeEtudiant(int* nbEtud){
-	FILE *feEtud;
-	Etudiant* tab;
-	int i;
-
-	feEtud=fopen("etudiants.bin","rb");
-	if(feEtud==NULL){
-		printf("Erreur lecture fichier \"etudiants.don\"\n");
-		return NULL;
-	}
-
-	fread(nbEtud,sizeof(int),1,feEtud);
-	
-	tab=(Etudiant*)malloc(sizeof(Etudiant)* *nbEtud);
-	if(tab==NULL){
-		printf("Problème allocation mémoire\n");
-		return NULL;
-  	}
-	fread(tab,sizeof(Etudiant),*nbEtud,feEtud);
-
-	fclose(feEtud);
-	return tab;
-}
-
-
-
-
-/* 
-   Fonction: chargeEtudiant
-   finalité: Charge les logements dans un tableau de pointeurs
-   
-   paramètre entrant/sortant :
-         fe		    - flot d'entrée
-		 tab		- tableau de logements
-
-   paramètre entrant : 
-	     tmax		- taille max du tableau
-		 
-   valeur retournée : 
-         nombre de logement
-
-*/
 int chargeLogement(Logement* tab[], int tmax){
 	Logement l;
 	FILE *feLoge;
@@ -219,31 +159,76 @@ int chargeLogement(Logement* tab[], int tmax){
 
 
 
+ListeDemande ajouterDemandeEnTete(ListeDemande listeDemandes, Demande demande) {
+  MaillonDemande* tmp;
+
+  tmp = (MaillonDemande*) malloc(sizeof(MaillonDemande));
+  if(tmp == NULL) {
+      printf("Problème allocation mémoire\n");
+      exit(1);
+  }
+
+  //copie id logement
+  strcpy(tmp->demande.idDemande, demande.idDemande);
+
+  //copie id etud
+  strcpy(tmp->demande.idEtudDemande, demande.idEtudDemande);
+
+  //copie echelon
+  tmp->demande.echelonEtud = demande.echelonEtud;
+
+  //copie cite demande
+  strcpy(tmp->demande.citeDemande, demande.citeDemande);
+
+  //copie type de logement demande
+  strcpy(tmp->demande.type, demande.type);
+  
+  tmp->suivant = listeDemandes;
+  listeDemandes=tmp;
+
+  return listeDemandes;
+}
+
+ListeDemande ajouterDecroissant(ListeDemande listeDemandes, Demande demande){
+
+	if(listeDemandes == NULL){
+		listeDemandes=ajouterDemandeEnTete(listeDemandes, demande);
+	}
+	else{
+		if (demande.echelonEtud >= listeDemandes->demande.echelonEtud){
+			listeDemandes=ajouterDemandeEnTete(listeDemandes, demande);
+		}
+		else{
+			listeDemandes->suivant=ajouterDecroissant(listeDemandes->suivant, demande);
+		}
+	}
+	return listeDemandes;
+}
 
 ListeDemande listeVide(void){
   return NULL;
 }
 
 
-
 ListeDemande chargeDemande(void){
 	FILE* feDemande;
-	ListeDemande demandes;
+	ListeDemande listeDemandes;
 	Demande demande;
 	int nbDem, i;
   
-	feDemande=fopen("demandes.don","r");
+	feDemande=fopen("demandes.bin","rb");
 	if(feDemande == NULL){
-		printf("Erreur lecture fichier \"demandes.don\"\n");
+		printf("Erreur lecture fichier \"demandes.bin\"\n");
 		return NULL;
 	}
 
-	demandes = listeVide();
-	demande=lireDemande(feDemande);
+	listeDemandes = listeVide();
+	fread(&demande,sizeof(Demande),1,feDemande);
 	while(feof(feDemande) == 0){
-		demandes=ajouterDecroissant(demandes, demande);
-		demande=lireDemande(feDemande);
+		listeDemandes=ajouterDecroissant(listeDemandes, demande);
+		fread(&demande,sizeof(Demande),1,feDemande);
 	}
 
-	return demandes;
+	return listeDemandes;
+    fclose(feDemande);
 }

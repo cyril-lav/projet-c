@@ -31,7 +31,7 @@ typedef struct demande{
 	char idDemande[6];
 	char idEtudDemande[6];
 	int echelonEtud;
-	char *citeDemande;
+	char citeDemande[30];
 	char type[8];
 }Demande;
 
@@ -45,9 +45,9 @@ typedef MaillonDemande *ListeDemande;
 
 //Chargement
 Logement lireLogement(FILE *feLoge);
-Demande lireDemande(FILE *fe);
-ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande);
-ListeDemande ajouterDecroissant(ListeDemande listeDemande, Demande demande);
+Etudiant lireEtud(FILE *fe);
+ListeDemande ajouterDemandeEnTete(ListeDemande listeDemandes, Demande demande);
+ListeDemande ajouterDecroissant(ListeDemande listeDemandes, Demande demande);
 ListeDemande listeVide(void);
 
 Etudiant* chargeEtudiant(int* nbEtud);
