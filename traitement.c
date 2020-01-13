@@ -179,13 +179,42 @@ Etudiant saisieEtudControle(void){
 	return e;
 }
 
-Demande saisieDemande(Etudiant e){
+void autoId(int nbIdEtud,char idDemande[]){
+	char zeros[4];
+	nbIdEtud++;
+	if(nbIdEtud<10)
+		strcpy(zeros,"000\0");
+	else if(nbIdEtud<100)
+		strcpy(zeros,"00\0");
+	else if(nbIdEtud<1000)
+		strcpy(zeros,"0\0");
+	else
+		strcpy(zeros,"\0");
+	FILE *flot;
+	flot=fopen("buffer.don","w");
+    if(flot==NULL){
+		strcpy(idDemande,"\0");
+        return;
+	}
+	fprintf(flot,"D%s%d",zeros,nbIdEtud);
+	fclose(flot);
+	flot=fopen("buffer.don","r");
+    if(flot==NULL){
+		strcpy(idDemande,"\0");
+        return;
+	}
+	fscanf(flot,"%s",idDemande);
+	fclose(flot);
+	idDemande[5]='\0';
+}
+
+Demande saisieDemande(Etudiant e, int nbIdEtud){
 	Demande demande;
 	int trouve, l;
 	char chaine[50];
-
-	printf("Saisir identifiant demande : ");
-	scanf("%s%*c",demande.idDemande);
+	autoId(nbIdEtud,demande.idDemande);
+	if(strlen(demande.idDemande)==0)
+		return demande;
 	printf("Saisir cité : ");
 	fgets(chaine,50,stdin);
 	l=strlen(chaine);
@@ -254,7 +283,11 @@ Etudiant* nouveauEtud(Etudiant *tabEtud, int* nbEtud, int* pos){
 ListeDemande nouvelleDemande(Etudiant *tabEtud, ListeDemande l, int nbEtud, int* nbIdDemande, int pos){
 	Demande demande;
 	
-	demande=saisieDemande(tabEtud[pos]);
+	demande=saisieDemande(tabEtud[pos], *nbIdDemande);
+	if(strlen(demande.idDemande)==0){
+		printf("Erreur génération idDemande. Demande annulée\n");
+		return l;
+	}
 	l=ajouterDecroissant(l, demande);
 	(*nbIdDemande)++;
 	return l;

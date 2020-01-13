@@ -6,7 +6,7 @@
 void appli(void){
     int choix=0; // Choix dans le menu
     int sauvegarde=1;
-    int nbLoge, nbEtud, nbIdDemande, posEtudiant;
+    int nbLoge, nbEtud, nbIdDemande=0, posEtudiant;
     char confirmerQuitter='X';
     FILE *fsDemande;
     Logement* tabLoge[80];
@@ -89,8 +89,6 @@ void appli(void){
 
 
 int main(void){
-	appli();
+    appli();
     return 0;
 }
-
-

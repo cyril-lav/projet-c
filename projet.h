@@ -84,7 +84,8 @@ void fusion(Etudiant tab1[],int nbtab1, Etudiant tab2[], int nbtab2,Etudiant tab
 void triDichoEtud(Etudiant *tabEtud,int nbEtud);
 int rechercheEtud(Etudiant* tab, char etud[6], int nbLog, int* trouve);
 Etudiant saisieEtudControle(void);
-Demande saisieDemande(Etudiant e);
+void autoId(int nbIdEtud, char idDemande[]);
+Demande saisieDemande(Etudiant e, int nbIdDemande);
 Etudiant* nouveauEtud(Etudiant *tabEtud, int* nbEtud, int* pos);
 ListeDemande nouvelleDemande(Etudiant *tabEtud, ListeDemande l, int nbEtud, int* nbIdDemande, int pos);
 int verifHandicap(Etudiant tabEtud[], char id[], int nbEtud);
