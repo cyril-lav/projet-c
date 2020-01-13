@@ -5,24 +5,27 @@
 
 void appli(void){
     int choix=0; // Choix dans le menu
-    int saveDone=1;
-    int nbLoge, nbEtud;
-    char confirmQuit='X';
+    int sauvegarde=1;
+    int nbLoge, nbEtud, nbIdDemande, posEtudiant;
+    char confirmerQuitter='X';
+    FILE *fsDemande;
     Logement* tabLoge[80];
-    Etudiant *tab;
-    ListeDemande *listeDemandes;
+    Etudiant *tabEtud;
+    ListeDemande listeDemandes;
+    listeDemandes=listeVide();
 
     nbLoge=chargeLogement(tabLoge, 80);
-    tab=chargeEtudiant(&nbEtud);
-    listeDemandes=chargeDemande();
+    tabEtud=chargeEtudiant(&nbEtud);
+    triDichoEtud(tabEtud,nbEtud);
+    listeDemandes=chargeDemande(&nbIdDemande);
 
     menu();
     scanf("%d%*c",&choix);
 
-    while(!(choix == 9 && saveDone == 1)){
+    while(!(choix == 9)){
         switch(choix){
             case 1:
-	         affichLogeDispo(tabLoge,nbLoge);
+	            affichLogeDispo(tabLoge,nbLoge);
                 break;
             case 2:
                 affichLogeOccup(tabLoge,nbLoge);
@@ -31,29 +34,49 @@ void appli(void){
                 affichDemande(listeDemandes);
                 break;
             case 4:
-                affichEtud(tab,nbEtud);
+                tabEtud=nouveauEtud(tabEtud, &nbEtud, &posEtudiant);
+                if(posEtudiant==nbEtud-1)
+                    triDichoEtud(tabEtud,nbEtud);
+                listeDemandes=nouvelleDemande(tabEtud,listeDemandes,nbEtud,&nbIdDemande, posEtudiant);
+                sauvegarde=0;
                 break;
             case 5:
+                listeDemandes=annulationDemande(listeDemandes);
+                sauvegarde=0;
                 break;
             case 6:
+                liberationLogement(tabLoge,nbLoge);
+                sauvegarde=0;
                 break;
             case 7:
+                sauvEtud(tabEtud,nbEtud);
+                sauvLoge(tabLoge,nbLoge);
+                fsDemande=fopen("demandes.bin","wb");
+                if(fsDemande==NULL){
+                    printf("Problème sauvegarde, écriture fichier \"demandes.bin\" impossible\n");
+                    break;
+                }
+                fwrite(&nbIdDemande,sizeof(int),1,fsDemande);
+                sauvDemande(listeDemandes,fsDemande,&nbIdDemande);
+                fclose(fsDemande);
+                sauvegarde=1;
                 break;
             case 8:
+                affichEtud(tabEtud,nbEtud);
                 break;
             case 9:
-                if(saveDone=='0'){
+                if(sauvegarde=='0'){
                     printf("Vous n'avez pas sauvegardé, voulez-vous quand même quitter l'application ? (O/N)\n");
-                    scanf("%c%*c",&confirmQuit);
-                    if(confirmQuit=='O' || confirmQuit=='o'){
-                        saveDone=1;
+                    scanf("%c%*c",&confirmerQuitter);
+                    if(confirmerQuitter=='O' || confirmerQuitter=='o'){
+                        sauvegarde=1;
                     }
                 }
                 break;
             default:
                 printf("Erreur: valeur non valide\n");
         }
-        if(choix==9 && saveDone==1){
+        if(choix==9 && sauvegarde==1){
             return;
         }
         menu();
@@ -67,7 +90,7 @@ void appli(void){
 
 int main(void){
 	appli();
-    //conversion();
+    return 0;
 }
 
 

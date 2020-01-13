@@ -82,16 +82,16 @@ Etudiant* chargeEtudiant(int* nbEtud){
    valeur retournée : l'article lu
 
 */
-Logement lireLogement(FILE *fe){
+Logement lireLogement(FILE *feLoge){
     Logement l;
     int tailleCite;
     char nomCite[50];
 
     //id logement
-    fscanf(fe,"%s%*c",l.idLoge);
+    fscanf(feLoge,"%s%*c",l.idLoge);
 
     //nom de la cite
-    fgets(nomCite, 50, fe);
+    fgets(nomCite, 50, feLoge);
     tailleCite=strlen(nomCite);
     if (nomCite[tailleCite-1] == '\n'){
         nomCite[tailleCite-1] = '\0';
@@ -102,17 +102,17 @@ Logement lireLogement(FILE *fe){
     strcpy(l.cite, nomCite);
 
     //Type de logement
-    fscanf(fe,"%s%*c",l.type);
+    fscanf(feLoge,"%s%*c",l.type);
 
     //logement pour handicap
-    fscanf(fe,"%d%*c", &l.handicapAdapte);
+    fscanf(feLoge,"%d%*c", &l.handicapAdapte);
 
     //logement diponible
-    fscanf(fe,"%d%*c", &l.dispo);
+    fscanf(feLoge,"%d%*c", &l.dispo);
 
     //Id de l'etusiant qui occupe
     if(l.dispo==0){
-        fscanf(fe,"%s%*c",l.idEtudOccup);
+        fscanf(feLoge,"%s%*c",l.idEtudOccup);
     }
     
     return l;
@@ -191,26 +191,28 @@ ListeDemande ajouterDemandeEnTete(ListeDemande listeDemandes, Demande demande) {
 
 ListeDemande ajouterDecroissant(ListeDemande listeDemandes, Demande demande){
 
-	if(listeDemandes == NULL){
-		listeDemandes=ajouterDemandeEnTete(listeDemandes, demande);
-	}
-	else{
-		if (demande.echelonEtud >= listeDemandes->demande.echelonEtud){
-			listeDemandes=ajouterDemandeEnTete(listeDemandes, demande);
-		}
-		else{
-			listeDemandes->suiv=ajouterDecroissant(listeDemandes->suiv, demande);
-		}
-	}
-	return listeDemandes;
+    if(listeDemandes == NULL){
+        listeDemandes=ajouterDemandeEnTete(listeDemandes, demande);
+    }
+    else{
+        if (demande.echelonEtud <= listeDemandes->demande.echelonEtud){
+            listeDemandes->suiv=ajouterDecroissant(listeDemandes->suiv, demande);
+        }
+        else{
+            listeDemandes=ajouterDemandeEnTete(listeDemandes, demande);
+        }
+    }
+    return listeDemandes;
 }
+
+
 
 ListeDemande listeVide(void){
   return NULL;
 }
 
 
-ListeDemande chargeDemande(void){
+ListeDemande chargeDemande(int* nbIdDemande){
 	FILE* feDemande;
 	ListeDemande listeDemandes;
 	Demande demande;
@@ -223,14 +225,52 @@ ListeDemande chargeDemande(void){
 	}
 
 	listeDemandes = listeVide();
-
+    fread(&nbIdDemande, sizeof(int),1,feDemande);
 	fread(&demande,sizeof(Demande),1,feDemande);
 	while(!feof(feDemande)){
 		listeDemandes=ajouterDecroissant(listeDemandes, demande);
 		fread(&demande,sizeof(Demande),1,feDemande);
 	}
-
+  fclose(feDemande);
 	return listeDemandes;
-    fclose(feDemande);
+}
+
+void sauvEtud(Etudiant tEtud[], int nbEtud){
+  FILE* fsEtud;
+  fsEtud=fopen("etudiants.don","w");
+  if(fsEtud==NULL){
+    printf("Erreur sauvegarde Etudiants");
+    return;
+  }
+  fprintf(fsEtud,"%d",nbEtud);
+  fprintf(fsEtud,"%s %s %s %s %d %d %d",tEtud->idEtud,tEtud->nom,
+  tEtud->prenom,tEtud->civ,tEtud->handicap,tEtud->boursier,tEtud->echelon);
+  fclose(fsEtud);
+}
+
+void sauvLoge(Logement* tabLoge[], int nbLoge){
+  	FILE* fsLoge;
+  	int i;
+  	fsLoge=fopen("logements.don","w");
+  	if(fsLoge==NULL){
+		printf("Erreur sauvegarde logement (ecriture de \"logements.don\" impossible\n");
+		return;
+  	}
+  	fprintf(fsLoge,"%d\n",nbLoge);
+  	for(i=0 ; i<nbLoge ; i++){
+   	 if(tabLoge[i]->dispo == 1){
+      fprintf(fsLoge,"%s %s %s \t %d %d \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);
+    }
+    if(tabLoge[i]->dispo == 0){
+      	fprintf(fsLoge,"%s %s %s \t %d %d %s \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
+    }
+  }
+}
+
+void sauvDemande(ListeDemande l,FILE* fsDem,int *nbIdDemande){
+ 
+  if(l==NULL)return;
+  fwrite(&(l->demande),sizeof(Demande),1,fsDem);
+  sauvDemande(l->suiv,fsDem,nbIdDemande);
 }
 
