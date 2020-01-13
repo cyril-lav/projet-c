@@ -78,8 +78,9 @@ void conversion(void);
 void copier(Etudiant *tabEtud,int deb, int fin, Etudiant tab[]);
 void fusion(Etudiant tab1[],int nbtab1, Etudiant tab2[], int nbtab2,Etudiant tabEtud[]);
 void triDichoEtud(Etudiant *tabEtud,int nbEtud);
-ListeDemande rechercheEtSuppressionDemande(char cite[], char type[], ListeDemande listeDemandes, char idEtud[]);
-ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabLoge[], int nbLoge);
+int verifHandicap(Etudiant tabEtud[], char id, int nbEtud);
+ListeDemande rechercheEtSuppressionDemande(char cite[], char type[], int handicapAdapte, ListeDemande listeDemandes,Etudiant tabEtud[], char idEtud[], int nbEtud){
+ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabLoge[], Etudiant tabEtud[], int nbLoge, int nbEtud);
 ListeDemande supprimerEnTete(ListeDemande listeDemandes);
 ListeDemande annulationDemande(ListeDemande listeDemandes,char idDemande[]);
 

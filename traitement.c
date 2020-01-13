@@ -163,28 +163,28 @@ Etudiant saisieEtudControle(void){
 		
 	printf("Saisir la civilité de l'étudiant (Mr/Mme): ");
 	scanf("%s%*c", e.civ);
-	while (e.civ != "Mr" || e.civ != "Mme"){
+	while (e.civ != "Mr" && e.civ != "Mme"){
 		printf("Erreur de saisie veuillez retaper (Mr/Mme) :");
 		scanf("%s%*c", e.civ);
 	}
 
 	printf("Saisir si l'étudiant possède un handicape (0/1) :");
 	scanf("%d%*c", e.handicap);
-	while (e.handicap != 1 || e.handicap != 0){
+	while (e.handicap > 1 || e.handicap < 0){
 		printf("Erreur de saisie veuillez retaper (0/1) :");
 		scanf("%d%*c", e.handicap);
 	}
 
 	printf("Saisir si l'étudiant est boursier (0/1) :");
 	scanf("%d%*c", e.boursier);
-	while (e.boursier != 1 || e.boursier != 0){
+	while (e.boursier > 1 || e.boursier < 0){
 		printf("Erreur de saisie veuillez retaper (0/1) :");
 		scanf("%d%*c", e.boursier);
 	}
 		    
 	printf("Saisir l'échelon de bourse de l'étudiant (0 à 7): ");
 	scanf("%d%*c", e.echelon);
-	while (e.echelon != 0 || e.echelon != 1 || e.echelon != 2 || e.echelon != 3 || e.echelon != 4 || e.echelon != 5 || e.echelon != 6 || e.echelon != 7){
+	while (e.echelon<0 || e.echelon>7){
 		printf("Erreur de saisie veuillez retaper (0 à 7) :");
 		scanf("%d%*c", e.echelon);
 	}
@@ -194,13 +194,20 @@ Etudiant saisieEtudControle(void){
 
 Demande saisieDemande(Etudiant e){
 	Demande demande;
+	int trouve;
 	printf("Saisir identifiant demande : ");
 	scanf("%s%*c",demande.idDemande);
 	printf("Saisir cité : ");
 	scanf("%s%*c",demande.citeDemande);
-	printf("Saisir type logement : ");
-	scanf("%s%*c",demande.type);   //A FINIR
-	
+	//trouve=rechercheCite               A COMPLETER
+	printf("Saisir type logement (Chambre / Studio / T1 / T2) : ");
+	scanf("%s%*c",demande.type);
+	while(strcmp(demande.type,"chambre")!=0 && strcmp(demande.type,"studio")!=0 && strcmp(demande.type,"T1")!=0 && strcmp(demande.type,"T2")!=0){
+		printf("Erreur de saisie veuillez recommencer (Chambre / Studio / T1 / T2) : ");
+		scanf("%s%*c",demande.type);
+	}
+	strcpy(demande.idEtudDemande,e.idEtud);
+	demande.echelonEtud=e.echelon;
 	return demande;
 }
 
@@ -239,25 +246,34 @@ void nouvelleDemande(Etudiant *tabEtud, ListeDemande l, int* nbEtud){
 }
 
 
-ListeDemande rechercheEtSuppressionDemande(char cite[], char type[], ListeDemande listeDemandes, char idEtud[]){
-	int cmpCite, cmpType;
+int verifHandicap(Etudiant tabEtud[], char id, int nbEtud){
+	for(int i=0;i<nbEtud;i++)
+		if(strcmp(tabEtud[i].idEtud,id)==0)
+			return tabEtud[i].handicap;
+}
+
+ListeDemande rechercheEtSuppressionDemande(char cite[], char type[], int handicapAdapte, ListeDemande listeDemandes,Etudiant tabEtud[], char idEtud[], int nbEtud){
+	int cmpCite, cmpType, handicap;
 	MaillonDemande *tmp;
 	if(listeDemandes==NULL)
 		return listeDemandes;
-	cmpCite=strcmp(listeDemandes->suiv->demande.citeDemande,cite);
-	cmpType=strcmp(listeDemandes->suiv->demande.type,type);
-	if(cmpCite==0 && cmpType==0){
-		strcpy(idEtud,listeDemandes->suiv->demande.idEtudDemande);
-		tmp=listeDemandes;
-		listeDemandes=tmp->suiv;
-		free(tmp);
+	handicap=verifHandicap(tabEtud,listeDemandes->suiv->demande.idEtudDemande, nbEtud);
+	if(handicap==handicapAdapte){
+		cmpCite=strcmp(listeDemandes->suiv->demande.citeDemande,cite);
+		cmpType=strcmp(listeDemandes->suiv->demande.type,type);
+		if(cmpCite==0 && cmpType==0){
+			strcpy(idEtud,listeDemandes->suiv->demande.idEtudDemande);
+			tmp=listeDemandes;
+			listeDemandes=tmp->suiv;
+			free(tmp);
+		}
 	}
 	else
-		listeDemandes->suiv=echercheEtSuppressionDemande(cite, type, listeDemandes->suiv, idEtud);
+		listeDemandes->suiv=rechercheEtSuppressionDemande(cite, type, handicapAdapte, listeDemandes->suiv, tabEtud, idEtud, nbEtud);
 	return listeDemandes;
 }
 
-ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabLoge[], int nbLoge){
+ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabLoge[], Etudiant tabEtud[], int nbLoge, int nbEtud){
 	int pos;
 	char idEtud[6]="00000";
 
@@ -265,7 +281,7 @@ ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabL
 		if(listeDemandes==NULL)
 			return NULL;
 		if(tabLoge[i]->dispo==1){
-			listeDemandes=rechercheEtSuppressionDemande(tabLoge[i]->cite, tabLoge[i]->type,listeDemandes, idEtud);
+			listeDemandes=rechercheEtSuppressionDemande(tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte,listeDemandes, tabEtud, idEtud, nbEtud);
 			if(strcmp(idEtud,"00000")!=0){
 				tabLoge[i]->dispo=0;
 				strcpy(tabLoge[i]->idEtudOccup,idEtud);
