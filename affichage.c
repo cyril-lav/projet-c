@@ -30,9 +30,10 @@ Variables : i : indice de boucle
 void affichLogeOccup(Logement* tabLoge[],int nbLog){
   int i;
   triSelectEchLoge(tabLoge,nbLog);
+  printf("N°Logement\tN°Etudiant\tType\ttHandicap\tCité\n\n");
   for(i=0; i < nbLog; i++){
     if(tabLoge[i]->dispo == 0){
-      printf("%s %s %s \t %d %d %s \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
+      printf("%s\t\t%s\t\t%s\t\t%d\t\t%s\n",tabLoge[i]->idLoge, tabLoge[i]->idEtudOccup, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->cite);
     }
   }
 }
@@ -47,9 +48,10 @@ Variables : i : indice de boucle
 void affichLogeDispo(Logement* tabLoge[],int nbLog){
   int i;
   triSelectEchLoge(tabLoge,nbLog);
+  printf("N°Logement\tType\t\tHandicap\tCité\n\n");
   for(i=0; i < nbLog; i++){
     if(tabLoge[i]->dispo == 1){
-      printf("%s %s %s \t %d %d \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);
+      printf("%s\t\t%s\t\t%d\t\t%s\n", tabLoge[i]->idLoge, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->cite);
     }
   }
 }
@@ -62,13 +64,14 @@ Paramètres : tab : tableau d'Etudiants
 Variables : i : indice de boucle
 */
 void affichEtud(Etudiant* tab,int nbEtud){
-  int i;
-    for(i=0;i<nbEtud;i++){
-        printf("%s %s %s %s %d %d",tab[i].idEtud,tab[i].nom,tab[i].prenom,tab[i].civ,tab[i].handicap,tab[i].boursier);
-        if(tab[i].boursier==1)
-            printf("%d",tab[i].echelon);
-        printf("\n"); 
-    }
+	int i;
+  	for(i=0;i<nbEtud;i++){
+    	printf("%s\t%s\t\t\t%s\t\t%s\t\t%d\t%d",tab[i].idEtud,tab[i].nom,tab[i].prenom,tab[i].civ,tab[i].handicap,tab[i].boursier);
+    	if(tab[i].boursier==1){
+            printf("\t%d",tab[i].echelon); 
+    	}
+		printf("\n");
+  	}
 }
 
 /*
@@ -80,7 +83,7 @@ Variables : i : indice de boucle
 */
 void affichDemande(ListeDemande l){
 	if(l == NULL)return;
-	printf("%s %s %d %s %s\n",l->demande.idDemande, l->demande.idEtudDemande, l->demande.echelonEtud, l->demande.citeDemande, l->demande.type);
+	printf("%s\t\t%s\t\t%d\t  %s\t\t\t%s\n",l->demande.idDemande, l->demande.idEtudDemande, l->demande.echelonEtud, l->demande.type, l->demande.citeDemande);
 	affichDemande(l->suiv);
 }
 

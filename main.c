@@ -16,13 +16,13 @@ void appli(void){
 
     nbLoge=chargeLogement(tabLoge, 80);
     tabEtud=chargeEtudiant(&nbEtud);
-    triDichoEtud(tabEtud,nbEtud);
+    triDichoEtud(tabEtud, nbEtud);
     listeDemandes=chargeDemande(&nbIdDemande);
 
     menu();
     scanf("%d%*c",&choix);
 
-    while(!(choix == 9)){
+    while(1){
         switch(choix){
             case 1:
 	            affichLogeDispo(tabLoge,nbLoge);
@@ -31,6 +31,7 @@ void appli(void){
                 affichLogeOccup(tabLoge,nbLoge);
                 break;
             case 3:
+                printf("N°Demande\tN°Etudiant\tEchelon\t  Type\t\t\tCité\n\n");
                 affichDemande(listeDemandes);
                 break;
             case 4:
@@ -46,6 +47,7 @@ void appli(void){
                 break;
             case 6:
                 liberationLogement(tabLoge,nbLoge);
+                listeDemandes=traitementDemandeAttente(listeDemandes, tabLoge, tabEtud, nbLoge, nbEtud);
                 sauvegarde=0;
                 break;
             case 7:
@@ -57,27 +59,28 @@ void appli(void){
                     break;
                 }
                 fwrite(&nbIdDemande,sizeof(int),1,fsDemande);
-                sauvDemande(listeDemandes,fsDemande,&nbIdDemande);
+                sauvDemande(listeDemandes,fsDemande);
                 fclose(fsDemande);
                 sauvegarde=1;
+                printf("Sauvegarde effectuée\n");
                 break;
             case 8:
                 affichEtud(tabEtud,nbEtud);
                 break;
             case 9:
-                if(sauvegarde=='0'){
+                if(sauvegarde==0){
                     printf("Vous n'avez pas sauvegardé, voulez-vous quand même quitter l'application ? (O/N)\n");
                     scanf("%c%*c",&confirmerQuitter);
-                    if(confirmerQuitter=='O' || confirmerQuitter=='o'){
-                        sauvegarde=1;
+                    if(confirmerQuitter!='O' && confirmerQuitter!='o'){
+                        break;
                     }
                 }
-                break;
-            default:
+                free(tabEtud);
+                liberationTabLog(tabLoge, nbLoge);
+                liberationListeDem(listeDemandes);
+                return;
+                default:
                 printf("Erreur: valeur non valide\n");
-        }
-        if(choix==9 && sauvegarde==1){
-            return;
         }
         menu();
         scanf("%d%*c",&choix);

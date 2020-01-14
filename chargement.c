@@ -38,9 +38,8 @@ Etudiant lireEtud(FILE *fe){
     if(e.prenom==NULL)
         exit(1);
     strcpy(e.prenom,chaine);
-    fscanf(fe,"%s %d %d ", e.civ, &e.handicap, &e.boursier);
-	fscanf(fe,"%d%*c",&e.echelon);
-	
+    fscanf(fe,"%s %d %d %d%*c", e.civ, &e.handicap, &e.boursier,&e.echelon);
+
   return e;
 }
 
@@ -225,52 +224,67 @@ ListeDemande chargeDemande(int* nbIdDemande){
 	}
 
 	listeDemandes = listeVide();
-    fread(&nbIdDemande, sizeof(int),1,feDemande);
+    fread(nbIdDemande, sizeof(int),1,feDemande);
 	fread(&demande,sizeof(Demande),1,feDemande);
 	while(!feof(feDemande)){
 		listeDemandes=ajouterDecroissant(listeDemandes, demande);
 		fread(&demande,sizeof(Demande),1,feDemande);
 	}
-  fclose(feDemande);
+    fclose(feDemande);
 	return listeDemandes;
 }
 
 void sauvEtud(Etudiant tEtud[], int nbEtud){
-  FILE* fsEtud;
-  fsEtud=fopen("etudiants.don","w");
-  if(fsEtud==NULL){
-    printf("Erreur sauvegarde Etudiants");
-    return;
-  }
-  fprintf(fsEtud,"%d",nbEtud);
-  fprintf(fsEtud,"%s %s %s %s %d %d %d",tEtud->idEtud,tEtud->nom,
-  tEtud->prenom,tEtud->civ,tEtud->handicap,tEtud->boursier,tEtud->echelon);
-  fclose(fsEtud);
+    FILE* fsEtud;
+    fsEtud=fopen("etudiants.don","w");
+    if(fsEtud==NULL){
+    	printf("Erreur sauvegarde étudiants (écriture de \"logements.don\" impossible\n");
+    	return;
+    }
+    fprintf(fsEtud,"%d",nbEtud);
+    for(int i=0;i<nbEtud;i++){
+        fprintf(fsEtud,"\n%s\n%s\n%s\n%s %d %d %d\n",tEtud[i].idEtud,tEtud[i].nom,
+        tEtud[i].prenom,tEtud[i].civ,tEtud[i].handicap,tEtud[i].boursier,tEtud[i].echelon);
+    }
+    fclose(fsEtud);
 }
 
 void sauvLoge(Logement* tabLoge[], int nbLoge){
-  	FILE* fsLoge;
+	FILE* fsLoge;
   	int i;
   	fsLoge=fopen("logements.don","w");
   	if(fsLoge==NULL){
-		printf("Erreur sauvegarde logement (ecriture de \"logements.don\" impossible\n");
+		printf("Erreur sauvegarde logement (écriture de \"logements.don\" impossible\n");
 		return;
   	}
-  	fprintf(fsLoge,"%d\n",nbLoge);
   	for(i=0 ; i<nbLoge ; i++){
-   	 if(tabLoge[i]->dispo == 1){
-      fprintf(fsLoge,"%s %s %s \t %d %d \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);
+        fprintf(fsLoge,"%s\n%s\n%s\n%d\n%d\n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo);
+        if(tabLoge[i]->dispo == 0){
+      	    fprintf(fsLoge,"%s\n",tabLoge[i]->idEtudOccup);
+        }
     }
-    if(tabLoge[i]->dispo == 0){
-      	fprintf(fsLoge,"%s %s %s \t %d %d %s \n", tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->dispo, tabLoge[i]->idEtudOccup);
-    }
-  }
+	fclose(fsLoge);
 }
 
-void sauvDemande(ListeDemande l,FILE* fsDem,int *nbIdDemande){
- 
-  if(l==NULL)return;
-  fwrite(&(l->demande),sizeof(Demande),1,fsDem);
-  sauvDemande(l->suiv,fsDem,nbIdDemande);
+void sauvDemande(ListeDemande l,FILE* fsDem){
+    if(l==NULL)return;
+    fwrite(&(l->demande),sizeof(Demande),1,fsDem);
+    sauvDemande(l->suiv,fsDem);
 }
 
+
+void liberationTabLog(Logement** tabLog, int nbLog){
+    int i;
+
+    for(i=0; i < nbLog; i++){
+	    free(tabLog[i]);
+	}
+}
+
+
+ListeDemande liberationListeDem(ListeDemande l){
+    if(l == NULL)return l;
+    l->suiv=liberationListeDem(l->suiv);
+    l=supprimerEnTete(l);
+    return l;
+}

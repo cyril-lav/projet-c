@@ -59,7 +59,11 @@ ListeDemande chargeDemande(int* nbIdDemande);
 
 void sauvEtud(Etudiant tEtud[], int nbEtud);
 void sauvLoge(Logement* tabLoge[], int nbLoge);
-void sauvDemande(ListeDemande listeDemandes, FILE *fsDem, int *nbIdDemande);
+void sauvDemande(ListeDemande listeDemandes, FILE *fsDem);
+
+
+void liberationTabLog(Logement** tabLog, int nbLog);
+ListeDemande liberationListeDem(ListeDemande l);
 
 // Affichage
 void menu(void);
@@ -73,6 +77,7 @@ void triSelectEchLoge(Logement* tabLoge[],int nb);
 int posMin(Logement* tabLoge[], int nbLoge);
 void affichEtud(Etudiant *tab,int nbEtud);
 
+
 void conversion(void);
 
 // Traitement
@@ -82,7 +87,7 @@ void triSelectEchLoge(Logement* tabLoge[], int nb);
 void copier(Etudiant *tabEtud,int deb, int fin, Etudiant tab[]);
 void fusion(Etudiant tab1[],int nbtab1, Etudiant tab2[], int nbtab2,Etudiant tabEtud[]);
 void triDichoEtud(Etudiant *tabEtud,int nbEtud);
-int rechercheEtud(Etudiant* tab, char etud[6], int nbLog, int* trouve);
+int rechercheDichoEtud(Etudiant* tab, char etud[6], int nbEtud, int* trouve);
 Etudiant saisieEtudControle(void);
 void autoId(int nbIdEtud, char idDemande[]);
 Demande saisieDemande(Etudiant e, int nbIdDemande);
@@ -94,6 +99,6 @@ ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabL
 ListeDemande supprimerEnTete(ListeDemande listeDemandes);
 ListeDemande supprimerMaillonDemande(ListeDemande listeDemandes,char idDemande[], int *trouve);
 ListeDemande annulationDemande(ListeDemande listeDemandes);
-int rechercheDichoLoge(Logement **tabLoge, int nbLoge, char idLoge[]);
-void changementDispoLoge(Logement ** tabLoge,char idLoge[],int nbLoge);
+int rechercheParcoursLoge(Logement **tabLoge, int nbLoge, char idLoge[]);
+void changementDispoLoge(Logement ** tabLoge,char idLoge[],int nbLoge, int pos);
 void liberationLogement(Logement ** tabLoge,int nbLoge);

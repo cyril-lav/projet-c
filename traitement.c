@@ -2,6 +2,15 @@
 #include <string.h>
 #include <stdlib.h>
 
+
+/*
+Fonction: triBulleDemande
+Finalité: trier (Bulle) les Demandes par ordre décroissant des Echelons Boursiers
+Paramètres: tabDemande : tableau des Demandes
+			nbDemande : nombre de Demandes
+Variables: i : indice de boucle
+			cpt : compteur (si == 0 alors aucun changement)
+*/
 void triBulleDemande(Demande* tabDemande[],int nbDemande){
   int i, cpt=0;
   Demande* d;
@@ -97,21 +106,16 @@ void triDichoEtud(Etudiant *tabEtud,int nbEtud){
     free(tab2);
 }
 
-int rechercheEtud(Etudiant* tab, char etud[6], int nbLog, int* trouve){
-	int i, cmp;
-	*trouve=0;
-
-  	for(i=0; i < nbLog; i++){
-		  cmp=strcmp(etud, tab[i].idEtud);
-    	if(cmp == 0){
-			*trouve=1;
-    		return i;
-		}
-		if(cmp < 0){
-			return i;
-		}
-    }
-	return nbLog;
+int rechercheDichoEtud(Etudiant* tab, char etud[6], int nbEtud, int* trouve){
+	int deb=0, m, fin=nbEtud-1, cmp;
+	while(deb <= fin){
+		m=(deb+fin)/2;
+		cmp=strcmp(etud, tab[m].idEtud);
+		if(cmp == 0)return m;
+		if (cmp < 0)fin=m-1;
+		else deb=m+1;
+	}
+	return -1;
 }
 
 Etudiant saisieEtudControle(void){
@@ -244,7 +248,7 @@ Etudiant* nouveauEtud(Etudiant *tabEtud, int* nbEtud, int* pos){
 	printf("Veuillez saisir l'ID de l'étudiant: ");
 	scanf("%s%*c", etudSaisie);
 	
-	*pos=rechercheEtud(tabEtud, etudSaisie, *nbEtud, &trouve);
+	*pos=rechercheDichoEtud(tabEtud, etudSaisie, *nbEtud, &trouve);
 
 	if (trouve == 0){
 		e=saisieEtudControle();
@@ -256,23 +260,7 @@ Etudiant* nouveauEtud(Etudiant *tabEtud, int* nbEtud, int* pos){
 			exit(1); 
 		}
 		tabEtud=tab;
-			
-
-		strcpy(tabEtud[*nbEtud].idEtud, e.idEtud);
-
-		t=strlen(e.nom);
-		tabEtud[*nbEtud].nom=(char*)malloc(sizeof(char)*(t+1));
-		strcpy(tabEtud[*nbEtud].nom, e.nom);
-
-		t=strlen(e.prenom);
-		tabEtud[*nbEtud].prenom=(char*)malloc(sizeof(char)*(t+1));
-		strcpy(tabEtud[*nbEtud].prenom, e.prenom);
-
-		strcpy(tabEtud[*nbEtud].civ, e.civ);
-		tabEtud[*nbEtud].handicap = e.handicap;
-		tabEtud[*nbEtud].boursier = e.boursier;
-		tabEtud[*nbEtud].echelon = e.echelon;
-		
+		tabEtud[*nbEtud]=e;	
 		*pos=*nbEtud;
 		(*nbEtud)++;
 		
@@ -375,48 +363,38 @@ ListeDemande annulationDemande(ListeDemande listeDemandes){
 	return listeDemandes;
 }
 
-int rechercheDichoLoge(Logement **tabLoge, int nbLoge, char idLoge[]){
-	int deb=0, m, fin=nbLoge-1, cmp;
-	while(deb <= fin){
-		m=(deb+fin)/2;
-		cmp=strcmp(idLoge, tabLoge[m]->idLoge);
-		if(cmp == 0)return m;
-		if (cmp < 0)fin=m-1;
-		else deb=m+1;
-	}
+int rechercheParcoursLoge(Logement **tabLoge, int nbLoge, char idLoge[]){
+	for(int i=0; i<nbLoge; i++)
+		if(strcmp(tabLoge[i]->idLoge,idLoge)==0)
+			return i;
 	return -1;
 }
 
 
 
 
-void changementDispoLoge(Logement ** tabLoge,char idLoge[],int nbLoge){
-	int pos;
-	pos = rechercheDichoLoge(tabLoge,nbLoge,idLoge);
-	if(pos==-1){
-		printf("Erreur, le logement recherché n'existe pas\n");
-		return;
+void changementDispoLoge(Logement ** tabLoge,char idLoge[],int nbLoge, int pos){
+	if(tabLoge[pos]->dispo==0){
+		strcpy(tabLoge[pos]->idEtudOccup,"\0");
+		tabLoge[pos]->dispo=1;
 	}
 	else{
-		if(tabLoge[pos]->dispo==0){
-			strcpy(tabLoge[pos]->idEtudOccup,"\0");
-			tabLoge[pos]->dispo=1;
-		}
-		else{
-			printf("Erreur, le logement est déjà libre\n");
-			return;
-
-		}
+		printf("Erreur, le logement est déjà libre\n");
+		return;
 	}
 }
 
 void liberationLogement(Logement ** tabLoge,int nbLoge){
 	char idLogementLib[6];
-
+	int pos;
 	printf("Veuillez saisir l'ID de logement à libérer : ");
 	scanf("%s", idLogementLib);
-
-	changementDispoLoge(tabLoge, idLogementLib, nbLoge);
+	pos = rechercheParcoursLoge(tabLoge,nbLoge,idLogementLib);
+	if(pos==-1){
+		printf("Erreur, le logement recherché n'existe pas\n");
+		return;
+	}
+	changementDispoLoge(tabLoge, idLogementLib, nbLoge, pos);
 }
 
 
