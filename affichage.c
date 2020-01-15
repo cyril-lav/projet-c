@@ -23,9 +23,14 @@ void menu(void){
 /*
 Fonction : affichLogeOccup
 Finalité : afficher la liste des Logements Occupés avec leur Etudiant attaché
-Paramètres : tabLoge[] : tableau de logements
-              nbLog : nombre de logements
-Variables : i : indice de boucle
+
+Paramètres (entrant/sortant): 
+    tabLoge[] : tableau de pointeurs sur Logements
+
+Paramètres (entrant): 
+    nbLog : nombre de logements
+Variables : 
+    i : indice de boucle
 */
 void affichLogeOccup(Logement* tabLoge[],int nbLog){
   int i;
@@ -41,9 +46,15 @@ void affichLogeOccup(Logement* tabLoge[],int nbLog){
 /*
 Fonction : affichLogeOccup
 Finalité : afficher la liste des Logements Disponibles
-Paramètres : tabLoge[] : tableau de logements
-              nbLog : nombre de logements
-Variables : i : indice de boucle
+
+Paramètres (entrant/sortant): 
+    tabLoge[] : tableau de pointeurs sur Logements
+
+Paramètres (entrant): 
+    nbLog : nombre de logements
+    
+Variables : 
+    i : indice de boucle
 */
 void affichLogeDispo(Logement* tabLoge[],int nbLog){
   int i;
@@ -59,9 +70,15 @@ void affichLogeDispo(Logement* tabLoge[],int nbLog){
 /*
 Fonction : affichEtud
 Finalité : afficher la liste des Etudiants
-Paramètres : tab : tableau d'Etudiants
-              nbEtud : nombre d'Etudiants
-Variables : i : indice de boucle
+
+Paramètres (entrant/sortant): 
+    tab : tableau d'Etudiants
+
+Paramètres (entrant): 
+    nbEtud : nombre d'Etudiants
+
+Variables : 
+    i : indice de boucle
 */
 void affichEtud(Etudiant* tab,int nbEtud){
 	int i;
@@ -77,9 +94,9 @@ void affichEtud(Etudiant* tab,int nbEtud){
 /*
 Fonction : affichDemande
 Finalité : afficher la liste des Demandes
-Paramètres : tabLoge[] : tableau de logements
-              nbLog : nombre de logements
-Variables : i : indice de boucle
+
+Paramètres : 
+    l : liste de Demande
 */
 void affichDemande(ListeDemande l){
 	if(l == NULL)return;

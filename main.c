@@ -3,6 +3,24 @@
 #include <string.h>
 #include <stdlib.h>
 
+
+/*
+Fonction : appli
+Finalité : fonction générale
+
+Variables :
+    choix : différents choix dans le menu
+    sauvegarde : indice de sauvegarde (0 si sauvegarde à faire)
+    nbLoge : nombre de Logements
+    nbEtud : nombre d'Etudiants
+    nbIdDemande : nombre d'Id d'Etudiants
+    posEtudiant : position d'un Etudiant
+    confirmerQuitter : confirmation quand on quitte sans sauvegarder
+    fsDemande : flot pour sauvegarder les Demandes
+    tabLoge : tableau de Logements
+    tabEtud : tableau d'Etudiants
+    listeDemandes : liste de Demandes
+*/
 void appli(void){
     int choix=0; // Choix dans le menu
     int sauvegarde=1;
@@ -16,7 +34,7 @@ void appli(void){
 
     nbLoge=chargeLogement(tabLoge, 80);
     tabEtud=chargeEtudiant(&nbEtud);
-    triDichoEtud(tabEtud, nbEtud);
+    triRapide(tabEtud,0,nbEtud-1);
     listeDemandes=chargeDemande(&nbIdDemande);
 
     menu();
@@ -36,9 +54,9 @@ void appli(void){
                 break;
             case 4:
                 tabEtud=nouveauEtud(tabEtud, &nbEtud, &posEtudiant);
-                if(posEtudiant==nbEtud-1)
-                    triDichoEtud(tabEtud,nbEtud);
                 listeDemandes=nouvelleDemande(tabEtud,listeDemandes,nbEtud,&nbIdDemande, posEtudiant);
+                if(posEtudiant==nbEtud-1)
+                    triRapide(tabEtud,0,nbEtud-1);
                 sauvegarde=0;
                 break;
             case 5:

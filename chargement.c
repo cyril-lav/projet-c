@@ -5,10 +5,18 @@
 
 /* 
    Fonction: lireEtud
-   finalité: Lit un etudiant dans le fichier
-   paramètre entrant/sortant :
-		 fe			- flot entrant
-   valeur retournée : l'article lu
+   Finalité: Lis un etudiant dans le fichier
+
+	Paramètre entrant/sortant :
+		fe		- flot entrant
+
+    Variables : 
+        e		-un étudiant
+		l		-longueur de la chaine de caractère
+		chaine	-chaine de caractère lu
+
+	Valeur retournée : 
+   		étudiant lu
 */
 Etudiant lireEtud(FILE *fe){
   Etudiant e;
@@ -44,6 +52,21 @@ Etudiant lireEtud(FILE *fe){
 }
 
 
+/* 
+   Fonction: chargeEtudiant
+   Finalité: Chargement des étudiants du fichier dans un tableau
+
+	Paramètre entrant/sortant :
+		nbEtud		- nombre d'étudiants
+
+    Variables : 
+        feEtud		-flot d'entrée
+		tab			-tableau d'étudiants
+		i			-index
+
+	Valeur retournée : 
+   		Le tableau chargé
+*/
 Etudiant* chargeEtudiant(int* nbEtud){
 	FILE *feEtud;
 	Etudiant* tab;
@@ -75,11 +98,18 @@ Etudiant* chargeEtudiant(int* nbEtud){
 
 /* 
    Fonction: lireLogement
-   finalité: Lit un logement dans le fichier
-   paramètre entrant/sortant :
-		 fe			- flot entrant
-   valeur retournée : l'article lu
+   Finalité: Lis un logement dans le fichier
 
+	Paramètre entrant/sortant :
+		feLoge		- flot entrant
+
+    Variables : 
+        l				-un logement
+		tailleCite		-longueur de la chaine de caractère
+		nomCite			-chaine de caractère lu
+
+	Valeur retournée : 
+   		Logement lu
 */
 Logement lireLogement(FILE *feLoge){
     Logement l;
@@ -118,6 +148,26 @@ Logement lireLogement(FILE *feLoge){
 }
 
 
+/* 
+   Fonction: chargeLogement
+   Finalité: Chargement des logements du fichier dans un tableau de pointeurs
+
+	Paramètre entrant/sortant :
+		tab		- tableau de pointeurs de logements
+
+
+	Paramètre entrant :
+		tmax	-taille maximal du tableau
+
+    Variables : 
+        feLoge		-flot d'entrée
+		l			-un logement
+		i			-index
+		nbLo		-nombre de logements
+
+	Valeur retournée : 
+   		nombre de logements
+*/
 int chargeLogement(Logement* tab[], int tmax){
 	Logement l;
 	FILE *feLoge;
@@ -155,39 +205,46 @@ int chargeLogement(Logement* tab[], int tmax){
 }
 
 
+/* 
+   Fonction: ajouterDemandeEnTete
+   Finalité: Ajoute un maillon en tête dans une liste chainée
 
+	Paramètres entrants :
+		listeDemandes		-liste chainée de demande
+		demande				-une demande
 
+    Variables : 
+        tmp		-pointeur temporaire sur une demande
 
+	Valeur retournée : 
+   		liste de demande
+*/
 ListeDemande ajouterDemandeEnTete(ListeDemande listeDemandes, Demande demande) {
-  MaillonDemande* tmp;
+  	MaillonDemande* tmp;
 
-  tmp = (MaillonDemande*) malloc(sizeof(MaillonDemande));
-  if(tmp == NULL) {
-      printf("Problème allocation mémoire\n");
-      exit(1);
-  }
+  	tmp = (MaillonDemande*) malloc(sizeof(MaillonDemande));
+  	if(tmp == NULL) {
+        printf("Problème allocation mémoire\n");
+    	exit(1);
+ 	 }
 
-  //copie id logement
-  strcpy(tmp->demande.idDemande, demande.idDemande);
-
-  //copie id etud
-  strcpy(tmp->demande.idEtudDemande, demande.idEtudDemande);
-
-  //copie echelon
-  tmp->demande.echelonEtud = demande.echelonEtud;
-
-  //copie cite demande
-  strcpy(tmp->demande.citeDemande, demande.citeDemande);
-
-  //copie type de logement demande
-  strcpy(tmp->demande.type, demande.type);
-  
-  tmp->suiv = listeDemandes;
-  listeDemandes=tmp;
-
-  return listeDemandes;
+	tmp->demande=demande;
+	tmp->suiv = listeDemandes;
+  	listeDemandes=tmp;
+  	return listeDemandes;
 }
 
+/* 
+   Fonction: ajouterDecroissant
+   Finalité: ajoute un maillon de façon décroissant dans la liste de damande
+
+	Paramètres entrants :
+		listeDemandes		-liste chainée de demande
+		demande				-une demande
+
+	Valeur retournée : 
+   		liste de demande
+*/
 ListeDemande ajouterDecroissant(ListeDemande listeDemandes, Demande demande){
 
     if(listeDemandes == NULL){
@@ -205,12 +262,33 @@ ListeDemande ajouterDecroissant(ListeDemande listeDemandes, Demande demande){
 }
 
 
+/* 
+   Fonction: chargeLogement
+   Finalité: créé une liste vide
 
+	Valeur retournée : 
+   		NULL 
+*/
 ListeDemande listeVide(void){
   return NULL;
 }
 
+/* 
+   Fonction: chargeDemande
+   Finalité: Chargement des logements dans une liste chainée
 
+	Paramètre entrant/sortant :
+		nbIdDemande		- nombre d'id d'étudiant présent dans le fichier
+
+    Variables : 
+        feDemande			-flot d'entrée
+		listeDemandes		-liste chaînée de demande
+		i					-index
+		demande				-une demande
+
+	Valeur retournée : 
+   		liste de demandes
+*/
 ListeDemande chargeDemande(int* nbIdDemande){
 	FILE* feDemande;
 	ListeDemande listeDemandes;
@@ -234,6 +312,20 @@ ListeDemande chargeDemande(int* nbIdDemande){
 	return listeDemandes;
 }
 
+
+/* 
+   Fonction: sauvEtud
+   Finalité: Sauvgarde les étudiants dans un fichier
+
+	Paramètre entrant/sortant :
+		tEtud		-tableau d'étudiants
+
+	Paramètre entrant :
+		nbEtud		-nombre d'étudiants
+
+    Variables : 
+        fsEtud				-flot de sortie
+*/
 void sauvEtud(Etudiant tEtud[], int nbEtud){
     FILE* fsEtud;
     fsEtud=fopen("etudiants.don","w");
@@ -249,6 +341,21 @@ void sauvEtud(Etudiant tEtud[], int nbEtud){
     fclose(fsEtud);
 }
 
+
+/* 
+   Fonction: sauvLoge
+   Finalité: Sauvgarde les logements dans un fichier
+
+	Paramètre entrant/sortant :
+		tabLoge		-tableau de pointeur de logement
+
+	Paramètre entrant :
+		nbLoge		-nombre de logements
+
+    Variables : 
+        fsLoge				-flot de sortie
+		i					-index
+*/
 void sauvLoge(Logement* tabLoge[], int nbLoge){
 	FILE* fsLoge;
   	int i;
@@ -266,6 +373,17 @@ void sauvLoge(Logement* tabLoge[], int nbLoge){
 	fclose(fsLoge);
 }
 
+
+/* 
+   Fonction: sauvDemande
+   Finalité: Sauvgarde les logements dans un fichier
+
+	Paramètre entrant/sortant :
+		fsDem		-flots sortant
+
+	Paramètre entrant :
+		l		-liste de demande
+*/
 void sauvDemande(ListeDemande l,FILE* fsDem){
     if(l==NULL)return;
     fwrite(&(l->demande),sizeof(Demande),1,fsDem);
@@ -273,6 +391,16 @@ void sauvDemande(ListeDemande l,FILE* fsDem){
 }
 
 
+/* 
+   Fonction: liberationTabLog
+   Finalité: libère la mémoire du tableau de logement
+
+	Paramètre entrant/sortant :
+		tabLog		-tableau de logement
+
+	Paramètre entrant :
+		nbLog		-nombre de logement
+*/
 void liberationTabLog(Logement** tabLog, int nbLog){
     int i;
 
@@ -282,6 +410,13 @@ void liberationTabLog(Logement** tabLog, int nbLog){
 }
 
 
+/* 
+   Fonction: liberationListeDem
+   Finalité: libère la liste de demande
+
+	Paramètre entrant :
+		l		-liste de demande
+*/
 ListeDemande liberationListeDem(ListeDemande l){
     if(l == NULL)return l;
     l->suiv=liberationListeDem(l->suiv);

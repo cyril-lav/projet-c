@@ -6,10 +6,16 @@
 /*
 Fonction: triBulleDemande
 Finalité: trier (Bulle) les Demandes par ordre décroissant des Echelons Boursiers
-Paramètres: tabDemande : tableau des Demandes
-			nbDemande : nombre de Demandes
-Variables: i : indice de boucle
-			cpt : compteur (si == 0 alors aucun changement)
+
+Paramètres (entrant/sortant): 
+	tabDemande : tableau des Demandes
+
+Paramètre (entrant): 
+	nbDemande : nombre de Demandes
+
+Variables: 	
+	i : indice de boucle
+	cpt : compteur (si == 0 alors aucun changement)
 */
 void triBulleDemande(Demande* tabDemande[],int nbDemande){
   int i, cpt=0;
@@ -28,99 +34,177 @@ void triBulleDemande(Demande* tabDemande[],int nbDemande){
   }
 }
 
+/*
+Fonction: posMin
+Finalité: Donne la position de la cité alphabetiquement dernière
 
+Paramètres (entrant/sortant): 
+	tabLoge : tableau de Logements
+
+Paramètre (entrant) : 
+	nbLoge : nombre de Logements
+
+Variables: 	
+	i : indice de boucle
+	pos : position du Logement à échanger
+	logeCite : cité du Logement
+
+Valeur retournée: 
+	pos : position du Logement à échanger
+*/
 int posMin(Logement* tabLoge[], int nbLoge){
-  char* min=tabLoge[0]->cite;
-  int pos=0, i;
-  for(i=1 ; i<nbLoge ; i++){
-    if(strcmp(tabLoge[i]->cite,min)>0){
-      min=tabLoge[i]->cite;
-      pos=i;
-    }
-  }
-  return pos;
+	char* logeCite=tabLoge[0]->cite;
+  	int pos=0, i;
+  	for(i=1 ; i<nbLoge ; i++){
+    	if(strcmp(tabLoge[i]->cite,logeCite)>0){
+      	logeCite=tabLoge[i]->cite;
+      	pos=i;
+    	}
+  	}
+  	return pos;
 }
 
+/*
+Fonction: triSelectEchLoge
+Finalité: trier (SelectEchange) les Logements par ordre alphabtique
+
+Paramètres (entrant/sortant): 
+	tabLoge : tableau de Logements
+
+Paramètre (entrant) : 
+	nbLoge : nombre de Logements
+
+Variables: 
+	pos : position du Logement à échanger avec le premier Logement
+	loge : Logement provisoire
+*/
 void triSelectEchLoge(Logement* tabLoge[], int nb){
-  int pos;
-  Logement* loge;
-  if(nb==0 || nb==1){
-    return;
-  }
-  pos=posMin(tabLoge,nb);
-  if(pos!=0){
-    loge=tabLoge[0];
-    tabLoge[0]=tabLoge[pos];
-    tabLoge[pos]=loge;
-    triSelectEchLoge(tabLoge+1,nb-1);
-  }
+  	int pos;
+  	Logement* loge;
+  	if(nb==0 || nb==1){
+   		return;
+  	}
+  	pos=posMin(tabLoge,nb);
+  	if(pos!=0){
+    	loge=tabLoge[0];
+    	tabLoge[0]=tabLoge[pos];
+    	tabLoge[pos]=loge;
+    	triSelectEchLoge(tabLoge+1,nb-1);
+  	}
 }
 
+/*
+Fonction: partitionner
+Finalité: ///
 
-void copier(Etudiant *tabEtud,int deb, int fin, Etudiant tab[]){
-    int i=0;
-    while(deb<fin){
-        tab[i]=tabEtud[deb];
-        deb++;
-        i++;
-    }
+Paramètres (entrant/sortant): 
+	tabEtud : tableau d'Etudiants
+
+Paramètre (entrant) : 
+	deb :
+	fin :
+
+Variables: 
+	pivot : 
+	w :
+	i :
+	j :
+
+Valeur retournée:
+	i : 
+*/
+int partitionner(Etudiant tabEtud[], int deb, int fin){
+	Etudiant pivot=tabEtud[fin], w;
+	int i=deb;
+	for(int j=deb;j<=fin-1;j++){
+		if(strcmp(tabEtud[j].idEtud,pivot.idEtud)<0){
+			w=tabEtud[i];
+			tabEtud[i]=tabEtud[j];
+			tabEtud[j]=w;
+			i++;
+		}
+	}
+	w=tabEtud[i];
+	tabEtud[i]=tabEtud[fin];
+	tabEtud[fin]=w;
+	return i;
 }
 
+/*
+Fonction: triRapide
+Finalité: ///
 
-void fusion(Etudiant tab1[],int nbtab1, Etudiant tab2[], int nbtab2,Etudiant tabEtud[]){
-    int cpt1, cpt2, cptEtud;
-    while(cpt1<nbtab1 && cpt2<nbtab2){
-        if(strcmp(tab1[cpt1].idEtud,tab2[cpt2].idEtud)<0){
-            tabEtud[cptEtud]=tab1[cpt1];
-            cpt1++;
-            cptEtud++;
-        }
-        else{
-            tabEtud[cptEtud]=tab2[cpt2];
-            cpt2++;
-            cptEtud++;
-        }
-    }
+Paramètre (entrant/sortant): 
+	tabEtud : tableau d'Etudiants
+
+Paramètres (entrants) : 
+	deb :
+	fin :
+
+Variables: 
+	pivot : 
+*/
+void triRapide(Etudiant tabEtud[], int deb, int fin){
+	int pivot;
+	if(deb<fin){
+		pivot=partitionner(tabEtud,deb,fin);
+		triRapide(tabEtud,deb,pivot-1);
+		triRapide(tabEtud,pivot+1,fin);
+	}
 }
 
-void triDichoEtud(Etudiant *tabEtud,int nbEtud){
-    Etudiant *tab1, *tab2;
-    if(nbEtud==1)
-        return;
-    tab1=(Etudiant*)malloc((nbEtud/2)*sizeof(Etudiant));
-    if(tab1==NULL){
-        printf("Problème allocation mémoire (triDichoEtud)\n");
-        return;
-    }
-    tab2=(Etudiant*)malloc((nbEtud-nbEtud/2)*sizeof(Etudiant));
-    if(tab2==NULL){
-        printf("Problème allocation mémoire (triDichoEtud)\n");
-        return;
-    }
-    copier(tabEtud,0,nbEtud/2,tab1);
-    copier(tabEtud,nbEtud/2,nbEtud,tab2);
-    triDichoEtud(tab1,nbEtud/2);
-    triDichoEtud(tab2,nbEtud-nbEtud/2);
-    fusion(tab1,nbEtud/2,tab2,nbEtud-nbEtud/2,tabEtud);
-    free(tab1);
-    free(tab2);
-}
+/*
+Fonction: rechercheDichoEtud
+Finalité: recherche 
 
+Paramètres (entrant/sortant): 
+	tab : tableau d'Etudiants
+	trouve : vaut 1 si trouvé, sinon 0
+	etud : chaine de caractères Etudiant cherché
+
+Paramètres (entrant) : 
+	nbEtud : nombre d'Etudiants
+
+Variables :
+	deb : position de début dans le tableau
+	m : moyenne de début+fin
+	fin : position de fin dans le tableau
+	cmp : compteur
+	
+Valeur retournée:
+	m : la position de l'Etudiant cherché OU -1 si non trouvé
+*/
 int rechercheDichoEtud(Etudiant* tab, char etud[6], int nbEtud, int* trouve){
 	int deb=0, m, fin=nbEtud-1, cmp;
 	while(deb <= fin){
 		m=(deb+fin)/2;
 		cmp=strcmp(etud, tab[m].idEtud);
-		if(cmp == 0)return m;
-		if (cmp < 0)fin=m-1;
+		if(cmp == 0){
+			*trouve=1;
+			return m;
+		}
+		if (cmp < 0)
+			fin=m-1;
 		else deb=m+1;
 	}
 	return -1;
 }
 
+/*
+Fonction: saisieEtudControle
+Finalité: saisir un nouvel Etudiant
+	
+Variables :
+	e : Etudiant
+	chaine : chaine de caractères saisie sur stdin, le nom de l'Etudiant
+	l : longueur de la chaine (e.nom)
+	
+Valeur retournée:
+	e : Etudiant 
+*/
 Etudiant saisieEtudControle(void){
 	int l;
-	char etudSaisie[6], chaine[50];
+	char chaine[50];
 	Etudiant e;
 
 
@@ -183,6 +267,19 @@ Etudiant saisieEtudControle(void){
 	return e;
 }
 
+/*
+Fonction: autoId
+Finalité: saisir un nouvel Etudiant
+	
+Paramètre (entrant/sortant) :
+	idDemande : nombre d'Id d'Etudiants
+
+Paramètre :
+	nbIdEtud : nombre après '0' dans une demande (ex: 42)
+	
+Variables :
+	zeros : chaine de caractères constituée de 0
+*/
 void autoId(int nbIdEtud,char idDemande[]){
 	char zeros[4];
 	nbIdEtud++;
@@ -212,14 +309,33 @@ void autoId(int nbIdEtud,char idDemande[]){
 	idDemande[5]='\0';
 }
 
+/*
+Fonction: saisieDemande
+Finalité: saisir une nouvelle Demande
+	
+Paramètre :
+	nbIdEtud : nombre d'Id d'Etudiants
+	e : Etudiant
+	
+Variables :
+	demande : Demande
+	l : longueur de la chaine de caractères (demande.idDemande)
+
+Valeur retournée :
+	demande : nouvelle Demande
+*/
 Demande saisieDemande(Etudiant e, int nbIdEtud){
 	Demande demande;
-	int trouve, l;
+	int l;
 	char chaine[50];
+	
 	autoId(nbIdEtud,demande.idDemande);
+	
 	if(strlen(demande.idDemande)==0)
 		return demande;
+
 	printf("Saisir cité : ");
+
 	fgets(chaine,50,stdin);
 	l=strlen(chaine);
 	if(chaine[l-1]=='\n'){
@@ -227,19 +343,40 @@ Demande saisieDemande(Etudiant e, int nbIdEtud){
     	l--;
 	}
 	strcpy(demande.citeDemande,chaine);
-	printf("Saisir type logement (Chambre / Studio / T1 / T2) : ");
+
+	printf("Saisir type logement (CHAMBRE / STUDIO / T1 / T2) : ");
 	scanf("%s%*c",demande.type);
-	while(strcmp(demande.type,"Chambre")!=0 && strcmp(demande.type,"Studio")!=0 && strcmp(demande.type,"T1")!=0 && strcmp(demande.type,"T2")!=0){
-		printf("Erreur de saisie veuillez recommencer (Chambre / Studio / T1 / T2) : ");
+
+	while(strcmp(demande.type,"CHAMBRE")!=0 && strcmp(demande.type,"STUDIO")!=0 && strcmp(demande.type,"T1")!=0 && strcmp(demande.type,"T2")!=0){
+		printf("Erreur de saisie veuillez recommencer (CHAMBRE / STUDIO / T1 / T2) : ");
 		scanf("%s%*c",demande.type);
 	}
 	strcpy(demande.idEtudDemande,e.idEtud);
+	
 	demande.echelonEtud=e.echelon;
 	return demande;
 }
 
+/*
+Fonction: nouveauEtud
+Finalité: ajouter un Etudiant
+	
+Paramètres (entrant/sortant) :
+	tabEtud : tableau d'Etudiants
+	nbEtud : nombre d'Etudiants
+	pos : position de l'Etudiant
+	
+Variables :
+	trouve : valeur retournée de rechercheDichoEtud (0 si non trouvée, 1 si trouvé)
+	etudSaisie : chaine de caractères saisie sur stdin, l'ID de l'Etudiant
+	e : Etudiant
+	tab : tableau d'Etudiants faisant le Realloc
+
+Valeur retournée :
+	tabEtud : tableau d'Etudiants
+*/
 Etudiant* nouveauEtud(Etudiant *tabEtud, int* nbEtud, int* pos){
-	int trouve, t;
+	int trouve=0;
 	char etudSaisie[6];
 	Etudiant e;
 	Etudiant* tab;
@@ -257,7 +394,7 @@ Etudiant* nouveauEtud(Etudiant *tabEtud, int* nbEtud, int* pos){
 		tab=(Etudiant*)realloc(tabEtud,(*nbEtud+1)*sizeof(Etudiant));
 		if (tab == NULL){
 			printf("problème de réallocation");
-			exit(1); 
+			exit(1);
 		}
 		tabEtud=tab;
 		tabEtud[*nbEtud]=e;	
@@ -268,6 +405,26 @@ Etudiant* nouveauEtud(Etudiant *tabEtud, int* nbEtud, int* pos){
 	return tabEtud;
 }
 
+
+/* 
+   Fonction: nouvelleDemande
+   Finalité: Active une nouvelle requête de demande
+
+   	Paramètre entrant/sortant :
+		tabEtud			- tableau d'étudiants
+		nbIdDemande		- nombre d'id étudiant
+
+	Paramètres entrants :
+		l				-liste de demande
+		nbEtud			-nombre d'étudiant
+		pos				-position de l'étudiant qui fait la demande
+
+    Variable : 
+        demande				-une demande
+
+	Valeur retournée : 
+   		la liste de demande
+*/
 ListeDemande nouvelleDemande(Etudiant *tabEtud, ListeDemande l, int nbEtud, int* nbIdDemande, int pos){
 	Demande demande;
 	
@@ -282,53 +439,126 @@ ListeDemande nouvelleDemande(Etudiant *tabEtud, ListeDemande l, int nbEtud, int*
 }
 
 
+/* 
+   Fonction: verifHandicap
+   Finalité: vérifie si l'étudiant est handicapé
+
+   	Paramètre entrant/sortant :
+		tabEtud		- tableau d'étudiants
+		id				-id de l'étudiant saisie
+
+	Paramètres entrants :
+		nbEtud				-nombre d'étudiant
+
+    Variable : 
+        i				-index
+
+	Valeur retournée : 
+   		la valeur binaire si handicapé ou non
+*/
 int verifHandicap(Etudiant tabEtud[], char id[], int nbEtud){
 	for(int i=0;i<nbEtud;i++)
 		if(strcmp(tabEtud[i].idEtud,id)==0)
 			return tabEtud[i].handicap;
 }
 
+
+/* 
+   Fonction: rechercheEtSuppressionDemande
+   Finalité: recherche et supprime la demande saisie
+
+   	Paramètre entrant/sortant :
+		tabEtud				- tableau d'étudiants
+		cite				-nom de la cité
+		type				-type de logement
+		idEtud				-id de l'étudiant saisie
+
+	Paramètres entrants :
+		listeDemandes		-liste chainée de demandes
+		handicapAdapte		-adapté handicapé ou pas
+		nbEtud				-nombre d'étudiant
+
+    Variables : 
+        cmpCite				-compare les citées
+		cmpType				-compare les types
+		handicap			-verification si handicapé
+		tmp					-pointeur temporaire sur maillonDemande
+
+	Valeur retournée : 
+   		la liste de demande
+*/
 ListeDemande rechercheEtSuppressionDemande(char cite[], char type[], int handicapAdapte, ListeDemande listeDemandes,Etudiant tabEtud[], char idEtud[], int nbEtud){
-	int cmpCite, 
-	cmpType, handicap;
+	int cmpCite, cmpType, handicap;
 	MaillonDemande *tmp;
 	if(listeDemandes==NULL)
 		return listeDemandes;
-	handicap=verifHandicap(tabEtud,listeDemandes->suiv->demande.idEtudDemande, nbEtud);
+	handicap=verifHandicap(tabEtud,listeDemandes->demande.idEtudDemande, nbEtud);
 	if(handicap==handicapAdapte){
-		cmpCite=strcmp(listeDemandes->suiv->demande.citeDemande,cite);
-		cmpType=strcmp(listeDemandes->suiv->demande.type,type);
+		cmpCite=strcmp(listeDemandes->demande.citeDemande,cite);
+		cmpType=strcmp(listeDemandes->demande.type,type);
 		if(cmpCite==0 && cmpType==0){
-			strcpy(idEtud,listeDemandes->suiv->demande.idEtudDemande);
+			strcpy(idEtud,listeDemandes->demande.idEtudDemande);
 			tmp=listeDemandes;
-			listeDemandes=tmp->suiv;
+			listeDemandes=listeDemandes->suiv;
 			free(tmp);
+			return listeDemandes;
 		}
 	}
-	else
-		listeDemandes->suiv=rechercheEtSuppressionDemande(cite, type, handicapAdapte, listeDemandes->suiv, tabEtud, idEtud, nbEtud);
+	listeDemandes->suiv=rechercheEtSuppressionDemande(cite, type, handicapAdapte, listeDemandes->suiv, tabEtud, idEtud, nbEtud);
 	return listeDemandes;
 }
 
-ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabLoge[], Etudiant tabEtud[], int nbLoge, int nbEtud){
-	int pos;
-	char idEtud[6]="00000";
 
+/* 
+   Fonction: traitementDemandeAttente
+   Finalité: traite automatiquement les demandes en attentes
+
+   	Paramètre entrant/sortant :
+		tabLoge		- tableau de pointeurs de logements
+		tabEtud		- tableau d'étudiants
+
+	Paramètre entrant :
+		listeDemandes		-liste chainée de demandes
+		nbLoge				-nombre de logement
+		nbEtud				-nombre d'étudiant
+
+    Variable : 
+        idEtud				-id d'étudiant saisie
+
+	Valeur retournée : 
+   		la liste de demande
+*/
+ListeDemande traitementDemandeAttente(ListeDemande listeDemandes, Logement *tabLoge[], Etudiant tabEtud[], int nbLoge, int nbEtud){
+	char idEtud[6]="\0";
 	for(int i=0; i<nbLoge;i++){
 		if(listeDemandes==NULL)
 			return NULL;
 		if(tabLoge[i]->dispo==1){
 			listeDemandes=rechercheEtSuppressionDemande(tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte,listeDemandes, tabEtud, idEtud, nbEtud);
-			if(strcmp(idEtud,"00000")!=0){
+			if(strlen(idEtud)!=0){
 				tabLoge[i]->dispo=0;
 				strcpy(tabLoge[i]->idEtudOccup,idEtud);
-				strcpy(idEtud,"00000");
+				strcpy(idEtud,"\0");
 			}
 		}	
 	}
 	return listeDemandes;
 }
 
+
+/* 
+   Fonction: supprimerEnTete
+   Finalité: Supprime un maillon en tête dans la liste
+
+	Paramètre entrant :
+		listeDemandes		-liste chainée de demandes
+
+    Variable : 
+        tmp					-pointeur temporaire sur maillon demande
+
+	Valeur retournée : 
+   		la liste de demande
+*/
 ListeDemande supprimerEnTete(ListeDemande listeDemandes){
 	MaillonDemande *tmp;
 	tmp=listeDemandes;
@@ -338,6 +568,17 @@ ListeDemande supprimerEnTete(ListeDemande listeDemandes){
 }
 
 
+/* 
+   Fonction: supprimerMaillonDemande
+   Finalité: supprime un maillon de la liste de demande
+
+	Paramètres entrants :
+		listeDemandes		-liste chainée de demandes
+		idDemande			-Id de demande à supprimer
+
+	Valeur retournée : 
+   		la liste de demande
+*/
 ListeDemande supprimerMaillonDemande(ListeDemande listeDemandes,char idDemande[], int *trouve){
 	if(listeDemandes==NULL)
 		return listeDemandes;
@@ -350,6 +591,21 @@ ListeDemande supprimerMaillonDemande(ListeDemande listeDemandes,char idDemande[]
 	return listeDemandes;
 }
 
+
+/* 
+   Fonction: annulationDemande
+   Finalité: Annule une demande en attente
+
+	Paramètre entrant :
+		listeDemandes		-liste chainée de demandes
+
+    Variables : 
+        idDemandeSupp	-chaine de caractère de l'id demande saisie
+		trouve			-vérifie si l'Id est trouvé
+
+	Valeur retournée : 
+   		la liste de demande
+*/
 ListeDemande annulationDemande(ListeDemande listeDemandes){
 	char idDemandeSupp[6];
 	int trouve=0;
@@ -360,9 +616,29 @@ ListeDemande annulationDemande(ListeDemande listeDemandes){
 	listeDemandes=supprimerMaillonDemande(listeDemandes, idDemandeSupp, &trouve);
 	if (trouve==0)
 		printf("Erreur, ID introuvable\n");
+	else 
+		printf("Suppression effectuée\n");
 	return listeDemandes;
 }
 
+
+/* 
+   Fonction: rechercheParcoursLoge
+   Finalité: recherche dans le tableau de logement
+
+	Paramètre entrant/sortant :
+		tabLoge		- tableau de pointeurs de logements
+
+	Paramètres entrants :
+		nbLoge		-nombre de logements
+		idLoge		-chaine de caractère de l'id logement saisie
+
+    Variable : 
+		i				-index
+	
+	Valeur retournée : 
+   		la position
+*/
 int rechercheParcoursLoge(Logement **tabLoge, int nbLoge, char idLoge[]){
 	for(int i=0; i<nbLoge; i++)
 		if(strcmp(tabLoge[i]->idLoge,idLoge)==0)
@@ -371,8 +647,19 @@ int rechercheParcoursLoge(Logement **tabLoge, int nbLoge, char idLoge[]){
 }
 
 
+/* 
+   Fonction: changementDispoLoge
+   Finalité: change l'état d'un logement
+   
+	Paramètre entrant/sortant :
+		tabLoge		- tableau de pointeurs de logements
 
+	Paramètres entrants :
+		nbLoge		-nombre de logements
+		idLoge		-chaine de caractère de l'id logement saisie
+		pos			-position de l'id saisie
 
+*/
 void changementDispoLoge(Logement ** tabLoge,char idLoge[],int nbLoge, int pos){
 	if(tabLoge[pos]->dispo==0){
 		strcpy(tabLoge[pos]->idEtudOccup,"\0");
@@ -384,6 +671,21 @@ void changementDispoLoge(Logement ** tabLoge,char idLoge[],int nbLoge, int pos){
 	}
 }
 
+
+/* 
+   Fonction: liberationLogement
+   Finalité: Change l'état du logment saisie
+
+	Paramètre entrant/sortant :
+		tabLoge		- tableau de pointeurs de logements
+
+	Paramètre entrant :
+		nbLoge		-nombre de logements
+
+    Variables : 
+        idLogementLib	-chaine de caractère de l'id logement saisie
+		pos				-position de l'id saisie
+*/
 void liberationLogement(Logement ** tabLoge,int nbLoge){
 	char idLogementLib[6];
 	int pos;
