@@ -101,13 +101,13 @@ Paramètres (entrant/sortant):
 	tabEtud : tableau d'Etudiants
 
 Paramètre (entrant) : 
-	deb :
-	fin :
+	deb :	position du premier élément
+	fin :	position du dernier élément
 
 Variables: 
 	pivot : 
-	w :
-	i :
+	w : sauvegarde temporaire d'un étudiant pour intervetir 2 éléments du tableau
+	i :	position à partir de laquelle tous les éléments précédents sont inférieurs au pivot
 	j :
 
 Valeur retournée:
@@ -138,18 +138,18 @@ Paramètre (entrant/sortant):
 	tabEtud : tableau d'Etudiants
 
 Paramètres (entrants) : 
-	deb :
+	deb :	position du premier élément du tableau
 	fin :
 
 Variables: 
-	pivot : 
+	posPivot : position du pivot
 */
 void triRapide(Etudiant tabEtud[], int deb, int fin){
-	int pivot;
+	int posPivot;
 	if(deb<fin){
-		pivot=partitionner(tabEtud,deb,fin);
-		triRapide(tabEtud,deb,pivot-1);
-		triRapide(tabEtud,pivot+1,fin);
+		posPivot=partitionner(tabEtud,deb,fin);
+		triRapide(tabEtud,deb,posPivot-1);
+		triRapide(tabEtud,posPivot+1,fin);
 	}
 }
 

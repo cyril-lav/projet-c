@@ -11,10 +11,11 @@ void menu(void){
   printf("#  1-Affichage des Logements Disponibles            #\n");
   printf("#  2-Affichage des Logements Occupés                #\n");
   printf("#  3-Affichage des Demandes Logements en Attente    #\n");
-  printf("#  4-Création d'une Demande de Logement             #\n");
-  printf("#  5-Annulation d'une Demande de Logement           #\n");
-  printf("#  6-Libération d'un Logement                       #\n");
-  printf("#  7-Sauvegarde des fichiers                        #\n");
+  printf("#  4-Affichage des Etudiants                        #\n");
+  printf("#  5-Création d'une Demande de Logement             #\n");
+  printf("#  6-Annulation d'une Demande de Logement           #\n");
+  printf("#  7-Libération d'un Logement                       #\n");
+  printf("#  8-Sauvegarde des fichiers                        #\n");
   printf("#  9-Quitter                                        #\n");
   printf("#####################################################\n\n");
 }
@@ -35,7 +36,7 @@ Variables :
 void affichLogeOccup(Logement* tabLoge[],int nbLog){
   int i;
   triSelectEchLoge(tabLoge,nbLog);
-  printf("N°Logement\t\t\tCité\t\tType\t\ttHandicap\tN°Etudiant\n\n");
+  printf("\nN°Logement\t\t\tCité\t\tType\t\tHandicap\tN°Etudiant\n\n");
   for(i=0; i < nbLog; i++){
     if(tabLoge[i]->dispo == 0){
       printf("%s %30s\t\t%s\t\t%d\t\t%s\n",tabLoge[i]->idLoge, tabLoge[i]->cite, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->idEtudOccup);
@@ -59,7 +60,7 @@ Variables :
 void affichLogeDispo(Logement* tabLoge[],int nbLog){
   int i;
   triSelectEchLoge(tabLoge,nbLog);
-  printf("N°Logement\tType\t\tHandicap\tCité\n\n");
+  printf("\nN°Logement\tType\t\tHandicap\tCité\n\n");
   for(i=0; i < nbLog; i++){
     if(tabLoge[i]->dispo == 1){
       printf("%s\t\t%s\t\t%d\t\t%s\n", tabLoge[i]->idLoge, tabLoge[i]->type, tabLoge[i]->handicapAdapte, tabLoge[i]->cite);
@@ -82,7 +83,7 @@ Variables :
 */
 void affichEtud(Etudiant* tab,int nbEtud){
 	int i;
-  printf("N°Etudiant\t\tNom\t\t\tPrénom\t\tCivilité\tHandicap\tBoursier\tEchelon\n\n");
+  printf("\nN°Etudiant\t\tNom\t\t\tPrénom\t\tCivilité\tHandicap\tBoursier\tEchelon\n\n");
   	for(i=0;i<nbEtud;i++){
     	printf("%s\t%20s\t%20s\t\t%s\t\t%d\t\t%d",tab[i].idEtud,tab[i].nom,tab[i].prenom,tab[i].civ,tab[i].handicap,tab[i].boursier);
     	if(tab[i].boursier==1){

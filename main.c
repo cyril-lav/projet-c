@@ -49,26 +49,29 @@ void appli(void){
                 affichLogeOccup(tabLoge,nbLoge);
                 break;
             case 3:
-                printf("N°Demande\tN°Etudiant\tEchelon\t  Type\t\t\tCité\n\n");
+                printf("\nN°Demande\tN°Etudiant\tEchelon\t\t  Type\t\t\tCité\n\n");
                 affichDemande(listeDemandes);
                 break;
             case 4:
+                affichEtud(tabEtud,nbEtud);
+                break;
+            case 5:
                 tabEtud=nouveauEtud(tabEtud, &nbEtud, &posEtudiant);
                 listeDemandes=nouvelleDemande(tabEtud,listeDemandes,nbEtud,&nbIdDemande, posEtudiant);
                 if(posEtudiant==nbEtud-1)
                     triRapide(tabEtud,0,nbEtud-1);
                 sauvegarde=0;
                 break;
-            case 5:
+            case 6:
                 listeDemandes=annulationDemande(listeDemandes);
                 sauvegarde=0;
                 break;
-            case 6:
+            case 7:
                 liberationLogement(tabLoge,nbLoge);
                 listeDemandes=traitementDemandeAttente(listeDemandes, tabLoge, tabEtud, nbLoge, nbEtud);
                 sauvegarde=0;
                 break;
-            case 7:
+            case 8:
                 sauvEtud(tabEtud,nbEtud);
                 sauvLoge(tabLoge,nbLoge);
                 fsDemande=fopen("demandes.bin","wb");
@@ -81,9 +84,6 @@ void appli(void){
                 fclose(fsDemande);
                 sauvegarde=1;
                 printf("Sauvegarde effectuée\n");
-                break;
-            case 8:
-                affichEtud(tabEtud,nbEtud);
                 break;
             case 9:
                 if(sauvegarde==0){
