@@ -41,24 +41,17 @@ typedef MaillonDemande *ListeDemande;
 
 
 //Chargement
-Logement lireLogement(FILE *feLoge);
 Etudiant lireEtud(FILE *fe);
 Etudiant* chargeEtudiant(int* nbEtud);
+Logement lireLogement(FILE *feLoge);
 int chargeLogement(Logement* tab[], int tmax);
 ListeDemande ajouterDemandeEnTete(ListeDemande listeDemandes, Demande demande);
 ListeDemande ajouterDecroissant(ListeDemande listeDemandes, Demande demande);
 ListeDemande listeVide(void);
 ListeDemande chargeDemande(int* nbIdDemande);
-
-Etudiant* chargeEtudiant(int* nbEtud);
-int chargeLogement(Logement* tab[], int tmax);
-ListeDemande chargeDemande(int* nbIdDemande);
-
 void sauvEtud(Etudiant tEtud[], int nbEtud);
 void sauvLoge(Logement* tabLoge[], int nbLoge);
 void sauvDemande(ListeDemande listeDemandes, FILE *fsDem);
-
-
 void liberationTabLog(Logement** tabLog, int nbLog);
 ListeDemande liberationListeDem(ListeDemande l);
 
@@ -66,16 +59,9 @@ ListeDemande liberationListeDem(ListeDemande l);
 void menu(void);
 void affichLogeOccup(Logement *tabLoge[], int nbLoge);
 void affichLogeDispo(Logement *tabLoge[], int nbLoge);
-void affichDemande(ListeDemande l);
-void appli(void);
-void triBulleLoge(Logement *tabLoge[], int nb);
-void triBulleDemande(Demande *tabDemande[], int nbDemande);
-void triSelectEchLoge(Logement* tabLoge[],int nb);
-int posMin(Logement* tabLoge[], int nbLoge);
 void affichEtud(Etudiant *tab,int nbEtud);
+void affichDemande(ListeDemande l);
 
-
-void conversion(void);
 
 // Traitement
 void triBulleDemande(Demande* tabDemande[],int nbDemande);

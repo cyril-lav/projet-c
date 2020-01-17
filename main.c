@@ -58,7 +58,7 @@ void appli(void){
             case 5:
                 tabEtud=nouveauEtud(tabEtud, &nbEtud, &posEtudiant);
                 listeDemandes=nouvelleDemande(tabEtud,listeDemandes,nbEtud,&nbIdDemande, posEtudiant);
-                if(posEtudiant==nbEtud-1)
+                if(posEtudiant==nbEtud-1)   //si la position de l'étudiant retournée est égale au nombre d'étudiant-1 c'est qu'il est nouveau, il faut donc trier
                     triRapide(tabEtud,0,nbEtud-1);
                 sauvegarde=0;
                 break;

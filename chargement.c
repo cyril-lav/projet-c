@@ -116,10 +116,8 @@ Logement lireLogement(FILE *feLoge){
     int tailleCite;
     char nomCite[50];
 
-    //id logement
     fscanf(feLoge,"%s%*c",l.idLoge);
 
-    //nom de la cite
     fgets(nomCite, 50, feLoge);
     tailleCite=strlen(nomCite);
     if (nomCite[tailleCite-1] == '\n'){
@@ -130,16 +128,12 @@ Logement lireLogement(FILE *feLoge){
     if (l.cite == NULL)exit(1);
     strcpy(l.cite, nomCite);
 
-    //Type de logement
     fscanf(feLoge,"%s%*c",l.type);
 
-    //logement pour handicap
     fscanf(feLoge,"%d%*c", &l.handicapAdapte);
 
-    //logement diponible
     fscanf(feLoge,"%d%*c", &l.dispo);
 
-    //Id de l'etusiant qui occupe
     if(l.dispo==0){
         fscanf(feLoge,"%s%*c",l.idEtudOccup);
     }
@@ -213,7 +207,7 @@ int chargeLogement(Logement* tab[], int tmax){
 		listeDemandes		-liste chainée de demande
 		demande				-une demande
 
-    Variables : 
+    Variable : 
         tmp		-pointeur temporaire sur une demande
 
 	Valeur retournée : 

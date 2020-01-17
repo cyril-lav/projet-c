@@ -7,7 +7,7 @@
 Fonction: triBulleDemande
 Finalité: trier (Bulle) les Demandes par ordre décroissant des Echelons Boursiers
 
-Paramètres (entrant/sortant): 
+Paramètre (entrant/sortant): 
 	tabDemande : tableau des Demandes
 
 Paramètre (entrant): 
@@ -38,7 +38,7 @@ void triBulleDemande(Demande* tabDemande[],int nbDemande){
 Fonction: posMin
 Finalité: Donne la position de la cité alphabetiquement dernière
 
-Paramètres (entrant/sortant): 
+Paramètre (entrant/sortant): 
 	tabLoge : tableau de Logements
 
 Paramètre (entrant) : 
@@ -68,7 +68,7 @@ int posMin(Logement* tabLoge[], int nbLoge){
 Fonction: triSelectEchLoge
 Finalité: trier (SelectEchange) les Logements par ordre alphabtique
 
-Paramètres (entrant/sortant): 
+Paramètre (entrant/sortant): 
 	tabLoge : tableau de Logements
 
 Paramètre (entrant) : 
@@ -95,12 +95,11 @@ void triSelectEchLoge(Logement* tabLoge[], int nb){
 
 /*
 Fonction: partitionner
-Finalité: ///
-
-Paramètres (entrant/sortant): 
+Finalité: sépare le tableau en 2 parties (partie inférieure au pivot et partie supérieur selon l'ID de l'étudiant)
+Paramètre (entrant/sortant): 
 	tabEtud : tableau d'Etudiants
 
-Paramètre (entrant) : 
+Paramètres (entrants) : 
 	deb :	position du premier élément
 	fin :	position du dernier élément
 
@@ -108,10 +107,10 @@ Variables:
 	pivot : 
 	w : sauvegarde temporaire d'un étudiant pour intervetir 2 éléments du tableau
 	i :	position à partir de laquelle tous les éléments précédents sont inférieurs au pivot
-	j :
+	j :	parcours le tableau et compare l'élément par rapport au pivot (selon l'id de l'étudiant)
 
 Valeur retournée:
-	i : 
+	i : position du pivot
 */
 int partitionner(Etudiant tabEtud[], int deb, int fin){
 	Etudiant pivot=tabEtud[fin], w;
@@ -132,14 +131,14 @@ int partitionner(Etudiant tabEtud[], int deb, int fin){
 
 /*
 Fonction: triRapide
-Finalité: ///
+Finalité: tri le tableau selon l'ordre croissant des identifiants des étudiants
 
 Paramètre (entrant/sortant): 
 	tabEtud : tableau d'Etudiants
 
 Paramètres (entrants) : 
 	deb :	position du premier élément du tableau
-	fin :
+	fin :	position du dernier élément du tableau
 
 Variables: 
 	posPivot : position du pivot
@@ -157,12 +156,12 @@ void triRapide(Etudiant tabEtud[], int deb, int fin){
 Fonction: rechercheDichoEtud
 Finalité: recherche 
 
-Paramètres (entrant/sortant): 
+Paramètres (entrants/sortants): 
 	tab : tableau d'Etudiants
 	trouve : vaut 1 si trouvé, sinon 0
 	etud : chaine de caractères Etudiant cherché
 
-Paramètres (entrant) : 
+Paramètres (entrants) : 
 	nbEtud : nombre d'Etudiants
 
 Variables :
@@ -269,15 +268,15 @@ Etudiant saisieEtudControle(void){
 
 /*
 Fonction: autoId
-Finalité: saisir un nouvel Etudiant
+Finalité: attribue un identifiant automatique lors de la création d'un demande
 	
 Paramètre (entrant/sortant) :
 	idDemande : nombre d'Id d'Etudiants
 
-Paramètre :
-	nbIdEtud : nombre après '0' dans une demande (ex: 42)
+Paramètre entrant :
+	nbIdEtud : nombre d'id de demande déjà créés permettant de créer l'id de la demande
 	
-Variables :
+Variable :
 	zeros : chaine de caractères constituée de 0
 */
 void autoId(int nbIdEtud,char idDemande[]){
@@ -313,13 +312,14 @@ void autoId(int nbIdEtud,char idDemande[]){
 Fonction: saisieDemande
 Finalité: saisir une nouvelle Demande
 	
-Paramètre :
+Paramètres entrants :
 	nbIdEtud : nombre d'Id d'Etudiants
 	e : Etudiant
 	
 Variables :
 	demande : Demande
 	l : longueur de la chaine de caractères (demande.idDemande)
+	chaine : chaine de caractère temporaire
 
 Valeur retournée :
 	demande : nouvelle Demande
@@ -359,7 +359,7 @@ Demande saisieDemande(Etudiant e, int nbIdEtud){
 
 /*
 Fonction: nouveauEtud
-Finalité: ajouter un Etudiant
+Finalité: saisie d'un étudiant pour créer une demande, créer l'étudiant et l'insère en fin de tableau s'il n'existe pas deja
 	
 Paramètres (entrant/sortant) :
 	tabEtud : tableau d'Etudiants
@@ -398,7 +398,7 @@ Etudiant* nouveauEtud(Etudiant *tabEtud, int* nbEtud, int* pos){
 		}
 		tabEtud=tab;
 		tabEtud[*nbEtud]=e;	
-		*pos=*nbEtud;
+		*pos=*nbEtud; 
 		(*nbEtud)++;
 		
 	}
@@ -410,7 +410,7 @@ Etudiant* nouveauEtud(Etudiant *tabEtud, int* nbEtud, int* pos){
    Fonction: nouvelleDemande
    Finalité: Active une nouvelle requête de demande
 
-   	Paramètre entrant/sortant :
+   	Paramètres entrants/sortants :
 		tabEtud			- tableau d'étudiants
 		nbIdDemande		- nombre d'id étudiant
 
@@ -420,7 +420,7 @@ Etudiant* nouveauEtud(Etudiant *tabEtud, int* nbEtud, int* pos){
 		pos				-position de l'étudiant qui fait la demande
 
     Variable : 
-        demande				-une demande
+        demande			-une demande
 
 	Valeur retournée : 
    		la liste de demande
@@ -443,15 +443,15 @@ ListeDemande nouvelleDemande(Etudiant *tabEtud, ListeDemande l, int nbEtud, int*
    Fonction: verifHandicap
    Finalité: vérifie si l'étudiant est handicapé
 
-   	Paramètre entrant/sortant :
+   	Paramètres entrants/sortants :
 		tabEtud		- tableau d'étudiants
-		id				-id de l'étudiant saisie
+		id		-id de l'étudiant saisie
 
 	Paramètres entrants :
-		nbEtud				-nombre d'étudiant
+		nbEtud		-nombre d'étudiant
 
     Variable : 
-        i				-index
+        i			-index
 
 	Valeur retournée : 
    		la valeur binaire si handicapé ou non
@@ -467,7 +467,7 @@ int verifHandicap(Etudiant tabEtud[], char id[], int nbEtud){
    Fonction: rechercheEtSuppressionDemande
    Finalité: recherche et supprime la demande saisie
 
-   	Paramètre entrant/sortant :
+   	Paramètres entrants/sortants :
 		tabEtud				- tableau d'étudiants
 		cite				-nom de la cité
 		type				-type de logement
@@ -513,11 +513,11 @@ ListeDemande rechercheEtSuppressionDemande(char cite[], char type[], int handica
    Fonction: traitementDemandeAttente
    Finalité: traite automatiquement les demandes en attentes
 
-   	Paramètre entrant/sortant :
+   	Paramètre entrants/sortants :
 		tabLoge		- tableau de pointeurs de logements
 		tabEtud		- tableau d'étudiants
 
-	Paramètre entrant :
+	Paramètres entrants :
 		listeDemandes		-liste chainée de demandes
 		nbLoge				-nombre de logement
 		nbEtud				-nombre d'étudiant
@@ -572,9 +572,12 @@ ListeDemande supprimerEnTete(ListeDemande listeDemandes){
    Fonction: supprimerMaillonDemande
    Finalité: supprime un maillon de la liste de demande
 
-	Paramètres entrants :
-		listeDemandes		-liste chainée de demandes
+   Paramètres entrants/sortants :
 		idDemande			-Id de demande à supprimer
+		trouve				-vaut 1 si trouvé, sinon 0
+
+	Paramètre entrant :
+		listeDemandes		-liste chainée de demandes
 
 	Valeur retournée : 
    		la liste de demande
@@ -626,12 +629,12 @@ ListeDemande annulationDemande(ListeDemande listeDemandes){
    Fonction: rechercheParcoursLoge
    Finalité: recherche dans le tableau de logement
 
-	Paramètre entrant/sortant :
+	Paramètres entrants/sortants :
 		tabLoge		- tableau de pointeurs de logements
-
-	Paramètres entrants :
-		nbLoge		-nombre de logements
 		idLoge		-chaine de caractère de l'id logement saisie
+
+	Paramètre entrant :
+		nbLoge		-nombre de logements
 
     Variable : 
 		i				-index
@@ -649,14 +652,14 @@ int rechercheParcoursLoge(Logement **tabLoge, int nbLoge, char idLoge[]){
 
 /* 
    Fonction: changementDispoLoge
-   Finalité: change l'état d'un logement
+   Finalité: change l'état d'un logement à disponible et affiche un message d'erreur s'il l'est déjà
    
-	Paramètre entrant/sortant :
+	Paramètres entrants/sortants :
 		tabLoge		- tableau de pointeurs de logements
+		idLoge		-chaine de caractère de l'id logement saisie
 
 	Paramètres entrants :
 		nbLoge		-nombre de logements
-		idLoge		-chaine de caractère de l'id logement saisie
 		pos			-position de l'id saisie
 
 */
