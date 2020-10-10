@@ -152,16 +152,11 @@ ListeDemande ajouterDemandeEnTete(ListeDemande listeDemande, Demande demande) {
 Etudiant* chargeEtudiant(FILE* fe, int* nbEtud){
 	Etudiant* tab;
 	int i;
-
-	fscanf(fe, "%d ", nbEtud);
+	fread(*nbEtud,sizeof(int),1,fe);
 	tab=(Etudiant*)malloc(sizeof(Etudiant)* *nbEtud);
-	if(tab == NULL){
-		printf("problème allocation mémoire etudiant");
-		exit(1);
-	}
-	for(i=0; i < *nbEtud; i++){
-		tab[i]= lireEtud(fe);
-	}
+	if(tab==NULL)
+		return -1;
+	fread(tab,sizeof(Etudiant),*nbEtud,fe);
 	return tab;
 }
 

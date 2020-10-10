@@ -60,3 +60,8 @@ void affichLogeDispo(Logement* tabLoge[],int nbLog){
 }
 
 // printf(" %s\n||%s\n\t%s\n || \t%d || %d\n",loge.idLoge,loge.cite,loge.type,loge.handicapAdapte,loge.dispo);
+
+void affichEtud(Etudiant *tab,int nbEtud){
+	for(int i=0;i<nbEtud;i++)
+		printf("%s %s %s %s %d %d %d",tab[i].idLoge, tab[i].cite, tab[i].type, tab[i].handicapAdapte, tab[i].dispo, tab[i].idEtudOccup);
+}

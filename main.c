@@ -26,6 +26,7 @@ void appli(void){
                 affichLogeDispo(tabLoge, nbLoge);
                 break;
             case 2:
+                affichLogeOccup(tabLoge,nbLoge);
                 break;
             case 3:
                 break;
